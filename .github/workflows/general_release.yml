@@ -1,3 +1,4 @@
+---
 name: Release
 
 on:
@@ -9,11 +10,11 @@ on:
         required: true
     inputs:
       node-version:
-        description: 'Node.js version'
+        description: "Node.js version"
         type: number
         required: false
       semantic-release-version:
-        description: 'Version of semantic-release-action'
+        description: "Version of semantic-release-action"
         type: string
         required: false
 

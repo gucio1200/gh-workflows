@@ -1,3 +1,4 @@
+---
 name: Generate Docs
 on:
   workflow_call:
@@ -8,15 +9,15 @@ on:
         required: true
     inputs:
       terraform-docs-version:
-        description: 'Version of terraform-docs to use'
+        description: "Version of terraform-docs to use"
         type: string
         required: false
         # Default handled in logic
       working-dir:
-        description: 'Directory containing main.tf'
+        description: "Directory containing main.tf"
         type: string
         required: false
-        default: '.'
+        default: "."
 
 env:
   TERRAFORM_DOCS_VERSION: v0.20.0
@@ -30,7 +31,7 @@ jobs:
       - name: Calculate Version
         id: version
         run: |
-          echo "VERSION=${{ inputs.terraform-docs-version || env.DEFAULT_TF_DOCS_VERSION }}" >> $GITHUB_OUTPUT
+          echo "VERSION=${{ inputs.terraform-docs-version || env.DEFAULT_TF_DOCS_VERSION }}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v5
         with:
@@ -55,20 +56,20 @@ jobs:
         if: steps.cache-tf-docs.outputs.cache-hit != 'true'
         run: |
           VERSION=${{ steps.version.outputs.VERSION }}
-          mkdir -p $(dirname ${{ env.TF_DOCS_PATH }})
+          mkdir -p "$(dirname ${{ env.TF_DOCS_PATH }})"
           echo "Installing terraform-docs $VERSION..."
-          
-          curl -Lo tf-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/$VERSION/terraform-docs-$VERSION-$(uname)-amd64.tar.gz
+
+          curl -Lo tf-docs.tar.gz "https://github.com/terraform-docs/terraform-docs/releases/download/$VERSION/terraform-docs-$VERSION-$(uname)-amd64.tar.gz"
           tar -xzf tf-docs.tar.gz terraform-docs
-          mv terraform-docs ${{ env.TF_DOCS_PATH }}
-          chmod +x ${{ env.TF_DOCS_PATH }}
+          mv terraform-docs "${{ env.TF_DOCS_PATH }}"
+          chmod +x "${{ env.TF_DOCS_PATH }}"
           rm tf-docs.tar.gz
 
       - name: Render terraform docs
         run: |
           WORKING_DIR="${{ inputs.working-dir || '.' }}"
           echo "Generating docs in $WORKING_DIR"
-          
+
           # Use the cached binary path
           "${{ env.TF_DOCS_PATH }}" markdown table \
             --output-file README.md \

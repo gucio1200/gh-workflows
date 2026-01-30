@@ -1,4 +1,5 @@
-name: 'Mark or close stale issues and PRs'
+---
+name: "Mark or close stale issues and PRs"
 on:
   workflow_call:
     secrets:
@@ -8,19 +9,19 @@ on:
         required: true
     inputs:
       days-before-stale:
-        description: 'Days with no activity before marking as stale'
+        description: "Days with no activity before marking as stale"
         type: number
         required: false
       days-before-close:
-        description: 'Days with no activity before closing stale item'
+        description: "Days with no activity before closing stale item"
         type: number
         required: false
       exempt-labels:
-        description: 'Comma separated labels to ignore (e.g. bug,wip)'
+        description: "Comma separated labels to ignore (e.g. bug,wip)"
         type: string
         required: false
       delete-branch:
-        description: 'Delete branch after closing PR'
+        description: "Delete branch after closing PR"
         type: boolean
         required: false
 

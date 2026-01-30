@@ -1,18 +1,19 @@
+---
 name: Pre-Commit
 
 on:
   workflow_call:
     inputs:
       terraform-docs-version:
-        description: 'Terraform Docs version'
+        description: "Terraform Docs version"
         type: string
         required: false
       tflint-version:
-        description: 'TFLint version'
+        description: "TFLint version"
         type: string
         required: false
       install-hcledit:
-        description: 'Install hcledit'
+        description: "Install hcledit"
         type: boolean
         required: false
         default: true
@@ -60,7 +61,7 @@ jobs:
         with:
           terraform-version: ${{ steps.minMax.outputs.minVersion }}
           tflint-version: ${{ inputs.tflint-version || env.DEFAULT_TFLINT_VERSION }}
-          args: 'terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*'
+          args: "terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*"
 
       - name: Pre-commit Terraform ${{ steps.minMax.outputs.minVersion }}
         # Run only validate pre-commit check on min version supported
@@ -69,7 +70,7 @@ jobs:
         with:
           terraform-version: ${{ steps.minMax.outputs.minVersion }}
           tflint-version: ${{ inputs.tflint-version || env.DEFAULT_TFLINT_VERSION }}
-          args: 'terraform_validate --color=always --show-diff-on-failure --files $(ls *.tf)'
+          args: "terraform_validate --color=always --show-diff-on-failure --files $(ls *.tf)"
 
   preCommitMaxVersion:
     name: Max TF pre-commit

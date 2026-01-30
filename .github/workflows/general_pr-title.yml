@@ -1,4 +1,5 @@
-name: 'Validate PR title'
+---
+name: "Validate PR title"
 
 on:
   workflow_call:
@@ -9,19 +10,19 @@ on:
         required: true
     inputs:
       types:
-        description: 'Allowed commit types (newline separated)'
+        description: "Allowed commit types (newline separated)"
         type: string
         required: false
       subjectPattern:
-        description: 'Regex pattern for the subject'
+        description: "Regex pattern for the subject"
         type: string
         required: false
       wip:
-        description: 'Allow [WIP] prefix to skip validation'
+        description: "Allow [WIP] prefix to skip validation"
         type: boolean
         required: false
       validateSingleCommit:
-        description: 'Validate commit message for single-commit PRs'
+        description: "Validate commit message for single-commit PRs"
         type: boolean
         required: false
 

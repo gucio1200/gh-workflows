@@ -1,0 +1,13 @@
+---
+name: Linters
+
+on:
+  pull_request:
+
+jobs:
+  action-lint:
+    name: GH Action Lint
+    uses: ./.github/workflows/linter_gh-action.yml
+  yaml-lint:
+    name: GH Yaml Lint
+    uses: ./.github/workflows/linter_gh-yaml.yml
