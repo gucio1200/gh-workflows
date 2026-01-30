@@ -6,7 +6,7 @@ on:
 jobs:
   action-lint:
     name: action-lint
-    uses: ./.github/workflows/linters/action-lint.yml
+    uses: ./.github/workflows/linter-action.yml
   yaml-lint:
     name: yaml-lint
-    uses: ./.github/workflows/linters/yaml-lint.yml
+    uses: ./.github/workflows/linter-yaml.yml
