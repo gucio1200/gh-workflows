@@ -1,0 +1,68 @@
+name: 'Mark or close stale issues and PRs'
+on:
+  workflow_call:
+    secrets:
+      APP_ID:
+        required: true
+      APP_PRIVATE_KEY:
+        required: true
+    inputs:
+      days-before-stale:
+        description: 'Days with no activity before marking as stale'
+        type: number
+        required: false
+      days-before-close:
+        description: 'Days with no activity before closing stale item'
+        type: number
+        required: false
+      exempt-labels:
+        description: 'Comma separated labels to ignore (e.g. bug,wip)'
+        type: string
+        required: false
+      delete-branch:
+        description: 'Delete branch after closing PR'
+        type: boolean
+        required: false
+
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@v1.12.0
+        id: generate-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - uses: actions/stale@v10
+        with:
+          repo-token: ${{ steps.generate-token.outputs.token }}
+          # Staling issues and PR's
+          days-before-stale: ${{ inputs.days-before-stale || 30 }}
+          days-before-close: ${{ inputs.days-before-close || 10 }}
+
+          exempt-issue-labels: ${{ inputs.exempt-labels || 'bug,wip,on-hold' }}
+          exempt-pr-labels: ${{ inputs.exempt-labels || 'bug,wip,on-hold' }}
+
+          # Not stale if have this labels or part of milestone
+          exempt-all-milestones: true
+
+          stale-issue-label: stale
+          stale-pr-label: stale
+          stale-issue-message: |
+            This issue has been automatically marked as stale because it has been open 30 days
+            with no activity. Remove stale label or comment or this issue will be closed in 10 days
+          stale-pr-message: |
+            This PR has been automatically marked as stale because it has been open 30 days
+            with no activity. Remove stale label or comment or this PR will be closed in 10 days
+
+          # Close issue operations
+          # Label will be automatically removed if the issues are no longer closed nor locked.
+          delete-branch: ${{ inputs.delete-branch == null && true || inputs.delete-branch }}
+          close-issue-message: This issue was automatically closed because of stale in 10 days
+          close-pr-message: This PR was automatically closed because of stale in 10 days

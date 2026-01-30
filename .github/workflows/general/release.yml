@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  workflow_call:
+    secrets:
+      APP_ID:
+        required: true
+      APP_PRIVATE_KEY:
+        required: true
+    inputs:
+      node-version:
+        description: 'Node.js version'
+        type: number
+        required: false
+      semantic-release-version:
+        description: 'Version of semantic-release-action'
+        type: string
+        required: false
+
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '**/*.yml'
+      - '**/*.yaml'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Generate Token
+        uses: actions/create-github-app-token@v1.12.0
+        id: generate-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Set correct Node.js version
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version || 24 }}
+
+      - name: Install dependencies
+        run: |
+          npm install \
+            @semantic-release/changelog@6.0.3 \
+            @semantic-release/git@10.0.1 \
+            conventional-changelog-conventionalcommits@9.1.0
+
+      - name: Release
+        uses: cycjimmy/semantic-release-action@v5
+        with:
+          semantic_version: ${{ inputs.semantic-release-version || '25.0.0' }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
