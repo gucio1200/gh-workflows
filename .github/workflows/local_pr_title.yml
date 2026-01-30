@@ -1,5 +1,5 @@
 ---
-name: PR Title
+name: "PR Validate"
 
 on:
   pull_request_target:
@@ -9,6 +9,6 @@ on:
       - synchronize
 
 jobs:
-  Title:
+  Validate:
     uses: ./.github/workflows/general_pr-title.yml
     secrets: inherit
