@@ -30,7 +30,8 @@ jobs:
     steps:
       - name: Calculate Version
         id: version
-        run: echo "VERSION=${{ inputs.terraform-docs-version || env.DEFAULT_TF_DOCS_VERSION }}" >> $GITHUB_OUTPUT
+        run: |
+          echo "VERSION=${{ inputs.terraform-docs-version || env.DEFAULT_TF_DOCS_VERSION }}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v5
         with:
