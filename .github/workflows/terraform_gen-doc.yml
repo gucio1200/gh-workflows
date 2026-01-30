@@ -56,13 +56,13 @@ jobs:
         if: steps.cache-tf-docs.outputs.cache-hit != 'true'
         run: |
           VERSION=${{ steps.version.outputs.VERSION }}
-          mkdir -p $(dirname ${{ env.TF_DOCS_PATH }})
+          mkdir -p "$(dirname ${{ env.TF_DOCS_PATH }})"
           echo "Installing terraform-docs $VERSION..."
           
-          curl -Lo tf-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/$VERSION/terraform-docs-$VERSION-$(uname)-amd64.tar.gz
+          curl -Lo tf-docs.tar.gz "https://github.com/terraform-docs/terraform-docs/releases/download/$VERSION/terraform-docs-$VERSION-$(uname)-amd64.tar.gz"
           tar -xzf tf-docs.tar.gz terraform-docs
-          mv terraform-docs ${{ env.TF_DOCS_PATH }}
-          chmod +x ${{ env.TF_DOCS_PATH }}
+          mv terraform-docs "${{ env.TF_DOCS_PATH }}"
+          chmod +x "${{ env.TF_DOCS_PATH }}"
           rm tf-docs.tar.gz
 
       - name: Render terraform docs
