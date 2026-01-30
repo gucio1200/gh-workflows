@@ -1,5 +1,5 @@
 ---
-name: Scheadule
+name: "Lock or Stale"
 
 on:
   schedule:
