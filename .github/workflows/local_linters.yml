@@ -4,9 +4,10 @@ on:
   pull_request:
 
 jobs:
+  name: Linters
   action-lint:
     name: action-lint
-    uses: ./.github/workflows/linter-action.yml
+    uses: ./.github/workflows/linter_action.yml
   yaml-lint:
     name: yaml-lint
-    uses: ./.github/workflows/linter-yaml.yml
+    uses: ./.github/workflows/linter_yaml.yml
