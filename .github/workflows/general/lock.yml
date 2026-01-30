@@ -19,9 +19,6 @@ on:
         type: string
         default: '30'
 
-  schedule:
-    - cron: '50 1 * * *'
-
 jobs:
   lock:
     runs-on: ubuntu-latest

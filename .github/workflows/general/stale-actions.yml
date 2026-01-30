@@ -24,9 +24,6 @@ on:
         type: boolean
         required: false
 
-  schedule:
-    - cron: '0 0 * * *'
-
 jobs:
   stale:
     runs-on: ubuntu-latest
