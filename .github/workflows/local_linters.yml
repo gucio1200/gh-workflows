@@ -6,8 +6,8 @@ on:
 
 jobs:
   action-lint:
-    name: action-lint
-    uses: ./.github/workflows/linter_action.yml
+    name: GH Action Lint
+    uses: ./.github/workflows/linter_gh-action.yml
   yaml-lint:
-    name: yaml-lint
-    uses: ./.github/workflows/linter_yaml.yml
+    name: GH Yaml Lint
+    uses: ./.github/workflows/linter_gh-yaml.yml
