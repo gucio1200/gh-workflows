@@ -4,11 +4,9 @@ on:
   pull_request:
 
 jobs:
-  linters:
-    runs-on: ubuntu-latest
-    steps:
-#    - name: action-lint
-#      uses: ./.github/workflows/linters/action-lint.yml
-
-    - name: yaml-lint
-      uses: ./.github/workflows/linters/yaml-lint.yml
+  action-lint:
+    name: action-lint
+    uses: ./.github/workflows/linters/action-lint.yml
+  yaml-lint:
+    name: yaml-lint
+    uses: ./.github/workflows/linters/yaml-lint.yml
