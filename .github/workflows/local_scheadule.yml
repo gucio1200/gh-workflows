@@ -8,5 +8,7 @@ on:
 jobs:
   Stale:
     uses: ./.github/workflows/general_stale.yml
+    secrets: inherit
   Lock:
     uses: ./.github/workflows/general_lock.yml
+    secrets: inherit

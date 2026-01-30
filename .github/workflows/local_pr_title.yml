@@ -11,3 +11,4 @@ on:
 jobs:
   Title:
     uses: ./.github/workflows/general_pr-title.yml
+    secrets: inherit
