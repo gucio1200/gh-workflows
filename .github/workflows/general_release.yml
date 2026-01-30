@@ -10,11 +10,11 @@ on:
         required: true
     inputs:
       node-version:
-        description: 'Node.js version'
+        description: "Node.js version"
         type: number
         required: false
       semantic-release-version:
-        description: 'Version of semantic-release-action'
+        description: "Version of semantic-release-action"
         type: string
         required: false
 
@@ -40,7 +40,7 @@ jobs:
       - name: Set correct Node.js version
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ inputs.node-version || 24 }}
+          node-version: ${{ inputs.node-version || "24" }}
 
       - name: Install dependencies
         run: |
@@ -52,6 +52,6 @@ jobs:
       - name: Release
         uses: cycjimmy/semantic-release-action@v5
         with:
-          semantic_version: ${{ inputs.semantic-release-version || '25.0.0' }}
+          semantic_version: ${{ inputs.semantic-release-version || "25.0.0" }}
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}

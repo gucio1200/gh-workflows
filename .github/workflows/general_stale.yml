@@ -1,5 +1,5 @@
 ---
-name: 'Mark or close stale issues and PRs'
+name: "Mark or close stale issues and PRs"
 on:
   workflow_call:
     secrets:
@@ -9,19 +9,19 @@ on:
         required: true
     inputs:
       days-before-stale:
-        description: 'Days with no activity before marking as stale'
+        description: "Days with no activity before marking as stale"
         type: number
         required: false
       days-before-close:
-        description: 'Days with no activity before closing stale item'
+        description: "Days with no activity before closing stale item"
         type: number
         required: false
       exempt-labels:
-        description: 'Comma separated labels to ignore (e.g. bug,wip)'
+        description: "Comma separated labels to ignore (e.g. bug,wip)"
         type: string
         required: false
       delete-branch:
-        description: 'Delete branch after closing PR'
+        description: "Delete branch after closing PR"
         type: boolean
         required: false
 
@@ -41,11 +41,11 @@ jobs:
         with:
           repo-token: ${{ steps.generate-token.outputs.token }}
           # Staling issues and PR's
-          days-before-stale: ${{ inputs.days-before-stale || 30 }}
-          days-before-close: ${{ inputs.days-before-close || 10 }}
+          days-before-stale: ${{ inputs.days-before-stale || "30" }}
+          days-before-close: ${{ inputs.days-before-close || "10" }}
 
-          exempt-issue-labels: ${{ inputs.exempt-labels || 'bug,wip,on-hold' }}
-          exempt-pr-labels: ${{ inputs.exempt-labels || 'bug,wip,on-hold' }}
+          exempt-issue-labels: ${{ inputs.exempt-labels || "bug,wip,on-hold" }}
+          exempt-pr-labels: ${{ inputs.exempt-labels || "bug,wip,on-hold" }}
 
           # Not stale if have this labels or part of milestone
           exempt-all-milestones: true
