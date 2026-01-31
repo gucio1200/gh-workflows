@@ -1,0 +1,17 @@
+---
+name: "Release"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '**/*.yml'
+      - '**/*.yaml'
+
+jobs:
+  Release:
+    uses: ./.github/workflows/general_release.yml
+    secrets: inherit
