@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4.0.0](https://github.com/gucio1200/gh-workflows/compare/v3.0.0...v4.0.0) (2026-01-31)
+
+### ⚠ BREAKING CHANGES
+
+* **github-action:** Update actions/checkout action ( v4 → v6 ) (#8)
+
+### Bug Fixes
+
+* Remove path from renovate workflow. ([48c9e06](https://github.com/gucio1200/gh-workflows/commit/48c9e068d5d5b3faf63bec61ec83c29a36c5b864))
+
+### Continuous Integration
+
+* **github-action:** Update actions/checkout action ( v4 → v6 ) ([#8](https://github.com/gucio1200/gh-workflows/issues/8)) ([fc84384](https://github.com/gucio1200/gh-workflows/commit/fc84384beee874239904ef6675eb72ce900b73f0))
+
 ## [3.0.0](https://github.com/gucio1200/gh-workflows/compare/v2.0.0...v3.0.0) (2026-01-31)
 
 ### ⚠ BREAKING CHANGES
