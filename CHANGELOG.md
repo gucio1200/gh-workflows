@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/gucio1200/gh-workflows/compare/v1.0.0...v2.0.0) (2026-01-31)
+
+### ⚠ BREAKING CHANGES
+
+* **github-action:** Update renovatebot/github-action action ( v44.2.6 → v45.0.3 ) (#9)
+
+### Continuous Integration
+
+* **github-action:** Update renovatebot/github-action action ( v44.2.6 → v45.0.3 ) ([#9](https://github.com/gucio1200/gh-workflows/issues/9)) ([560ee3c](https://github.com/gucio1200/gh-workflows/commit/560ee3c28bf3f79a25d31b95ff1741d6849df4c9))
+
 ## 1.0.0 (2026-01-31)
 
 ### ⚠ BREAKING CHANGES
