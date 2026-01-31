@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0](https://github.com/gucio1200/gh-workflows/compare/v2.0.0...v3.0.0) (2026-01-31)
+
+### ⚠ BREAKING CHANGES
+
+* **github-action:** Update actions/create-github-app-token action ( v1.12.0 → v2.2.1 ) (#3)
+
+### Continuous Integration
+
+* **github-action:** Update actions/create-github-app-token action ( v1.12.0 → v2.2.1 ) ([#3](https://github.com/gucio1200/gh-workflows/issues/3)) ([df05721](https://github.com/gucio1200/gh-workflows/commit/df057210b6505fc1578fcbc1adc1e0e1ef706845))
+
 ## [2.0.0](https://github.com/gucio1200/gh-workflows/compare/v1.0.0...v2.0.0) (2026-01-31)
 
 ### ⚠ BREAKING CHANGES
