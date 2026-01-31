@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.0.0](https://github.com/gucio1200/gh-workflows/compare/v4.0.0...v5.0.0) (2026-01-31)
+
+### ⚠ BREAKING CHANGES
+
+* **github-action:** Update actions/checkout action ( v5 → v6 ) (#13)
+
+### Continuous Integration
+
+* **github-action:** Update actions/checkout action ( v5 → v6 ) ([#13](https://github.com/gucio1200/gh-workflows/issues/13)) ([3a1b8ce](https://github.com/gucio1200/gh-workflows/commit/3a1b8ce9febf0f8f0b4eada4bc4f0da02933c0aa))
+
 ## [4.0.0](https://github.com/gucio1200/gh-workflows/compare/v3.0.0...v4.0.0) (2026-01-31)
 
 ### ⚠ BREAKING CHANGES
