@@ -89,4 +89,4 @@ jobs:
           base: main
           delete-branch: true
           add-paths: |
-            **/README.md
+            README.md
