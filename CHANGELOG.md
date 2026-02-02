@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.0.5](https://github.com/gucio1200/gh-workflows/compare/v6.0.4...v6.0.5) (2026-02-02)
+
+### Bug Fixes
+
+* Move back to step env, this was correct... ([63d58e7](https://github.com/gucio1200/gh-workflows/commit/63d58e7208b9d2f47855a8259e100eed84571131))
+
 ## [6.0.4](https://github.com/gucio1200/gh-workflows/compare/v6.0.3...v6.0.4) (2026-02-02)
 
 ### Bug Fixes
