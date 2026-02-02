@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.0](https://github.com/gucio1200/gh-workflows/compare/v6.1.2...v7.0.0) (2026-02-02)
+
+### ⚠ BREAKING CHANGES
+
+* **github-action:** Update peter-evans/create-pull-request action ( v6 → v8 ) (#15)
+
+### Continuous Integration
+
+* **github-action:** Update peter-evans/create-pull-request action ( v6 → v8 ) ([#15](https://github.com/gucio1200/gh-workflows/issues/15)) ([f6d9639](https://github.com/gucio1200/gh-workflows/commit/f6d9639265cdb8825c35412ac42a389528bc4234))
+
 ## [6.1.2](https://github.com/gucio1200/gh-workflows/compare/v6.1.1...v6.1.2) (2026-02-02)
 
 ### Bug Fixes
