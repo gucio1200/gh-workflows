@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.0.3](https://github.com/gucio1200/gh-workflows/compare/v6.0.2...v6.0.3) (2026-02-02)
+
+### Bug Fixes
+
+* Ref to github token for docs generation ([a3e8084](https://github.com/gucio1200/gh-workflows/commit/a3e80848214bd588a27815eae34b0796fe447d61))
+
 ## [6.0.2](https://github.com/gucio1200/gh-workflows/compare/v6.0.1...v6.0.2) (2026-02-02)
 
 ### Bug Fixes
