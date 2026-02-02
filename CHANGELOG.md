@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.0.4](https://github.com/gucio1200/gh-workflows/compare/v6.0.3...v6.0.4) (2026-02-02)
+
+### Bug Fixes
+
+* Persist-credentials: false for tf docs ([8756290](https://github.com/gucio1200/gh-workflows/commit/875629014d78080bc4038bd0fec0d2e90d3ace35))
+
 ## [6.0.3](https://github.com/gucio1200/gh-workflows/compare/v6.0.2...v6.0.3) (2026-02-02)
 
 ### Bug Fixes
