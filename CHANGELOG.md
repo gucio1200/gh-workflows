@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.1.2](https://github.com/gucio1200/gh-workflows/compare/v6.1.1...v6.1.2) (2026-02-02)
+
+### Bug Fixes
+
+* Make tf doc placement flexible ([bc8424d](https://github.com/gucio1200/gh-workflows/commit/bc8424d1c86a38d79d2cb7d7cfa7efe41ce033fd))
+
 ## [6.1.1](https://github.com/gucio1200/gh-workflows/compare/v6.1.0...v6.1.1) (2026-02-02)
 
 ### Bug Fixes
