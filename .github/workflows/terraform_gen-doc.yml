@@ -66,15 +66,15 @@ jobs:
           rm tf-docs.tar.gz
 
       - name: Render terraform docs
+        working-directory: ${{ inputs.working-dir || '.' }}
         run: |
-          WORKING_DIR="${{ inputs.working-dir || '.' }}"
-          echo "Generating docs in $WORKING_DIR"
+          echo "Generating docs in $(pwd)"
 
           # Use the cached binary path
           "${{ env.TF_DOCS_PATH }}" markdown table \
             --output-file README.md \
             --output-mode inject \
-            "$WORKING_DIR"
+            .
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -88,5 +88,4 @@ jobs:
           branch: docs/update-readme
           base: main
           delete-branch: true
-          add-paths: |
-            README.md
+          add-paths: ${{ inputs.working-dir || '.' }}/README.md
