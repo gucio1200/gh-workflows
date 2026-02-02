@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.0.1](https://github.com/gucio1200/gh-workflows/compare/v6.0.0...v6.0.1) (2026-02-02)
+
+### Bug Fixes
+
+* Terraform default docs version ([ef98ddc](https://github.com/gucio1200/gh-workflows/commit/ef98ddc9d666d638c8240b847261596e1b663fe7))
+
 ## [6.0.0](https://github.com/gucio1200/gh-workflows/compare/v5.0.0...v6.0.0) (2026-01-31)
 
 ### ⚠ BREAKING CHANGES
