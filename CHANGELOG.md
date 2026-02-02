@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.1.1](https://github.com/gucio1200/gh-workflows/compare/v6.1.0...v6.1.1) (2026-02-02)
+
+### Bug Fixes
+
+* Force release ([5edbb23](https://github.com/gucio1200/gh-workflows/commit/5edbb23cfc363c2b539a8b173c74c715ecd1eeca))
+
 ## [6.1.0](https://github.com/gucio1200/gh-workflows/compare/v6.0.5...v6.1.0) (2026-02-02)
 
 ### Features
