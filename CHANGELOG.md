@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.1](https://github.com/gucio1200/gh-workflows/compare/v7.0.0...v7.0.1) (2026-02-02)
+
+### Bug Fixes
+
+* Doc branch will have sha inc. ([c7c5fc3](https://github.com/gucio1200/gh-workflows/commit/c7c5fc3ad0fceb94f5d744b33bfc1708ddb77591))
+
 ## [7.0.0](https://github.com/gucio1200/gh-workflows/compare/v6.1.2...v7.0.0) (2026-02-02)
 
 ### ⚠ BREAKING CHANGES
