@@ -85,7 +85,7 @@ jobs:
           body: |
             Automated update of `README.md` via `terraform-docs`.
             Triggered by commit: ${{ github.sha }}
-          branch: docs/update-readme
+          branch: docs/update-readme-${{ github.sha }}
           base: main
           delete-branch: true
           add-paths: ${{ inputs.working-dir || '.' }}/README.md
