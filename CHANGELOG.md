@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.0](https://github.com/gucio1200/gh-workflows/compare/v7.0.2...v7.1.0) (2026-02-03)
+
+### Features
+
+* Move back to pull_request mainly for terraform doc. ([b8c88e0](https://github.com/gucio1200/gh-workflows/commit/b8c88e02e529e501cda8ab8637e704a06b23defb))
+
 ## [7.0.2](https://github.com/gucio1200/gh-workflows/compare/v7.0.1...v7.0.2) (2026-02-03)
 
 ### Bug Fixes
