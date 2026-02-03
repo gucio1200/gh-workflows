@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.4](https://github.com/gucio1200/gh-workflows/compare/v7.1.3...v7.1.4) (2026-02-03)
+
+### Bug Fixes
+
+* use working dir for push ([9f239dc](https://github.com/gucio1200/gh-workflows/commit/9f239dcc89cda0b12dad261841173abbcab00854))
+
 ## [7.1.3](https://github.com/gucio1200/gh-workflows/compare/v7.1.2...v7.1.3) (2026-02-03)
 
 ### Bug Fixes
