@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.2](https://github.com/gucio1200/gh-workflows/compare/v7.0.1...v7.0.2) (2026-02-03)
+
+### Bug Fixes
+
+* Bind to semver versions ([92e3714](https://github.com/gucio1200/gh-workflows/commit/92e37149ed9044f9eb881abd2eb7591c19b72c58))
+
 ## [7.0.1](https://github.com/gucio1200/gh-workflows/compare/v7.0.0...v7.0.1) (2026-02-02)
 
 ### Bug Fixes
