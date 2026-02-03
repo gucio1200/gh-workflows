@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.3](https://github.com/gucio1200/gh-workflows/compare/v7.1.2...v7.1.3) (2026-02-03)
+
+### Bug Fixes
+
+* Keep naming consistent ([d751be4](https://github.com/gucio1200/gh-workflows/commit/d751be4d4123d1867e008450d205d440c9bc89b8))
+
 ## [7.1.2](https://github.com/gucio1200/gh-workflows/compare/v7.1.1...v7.1.2) (2026-02-03)
 
 ### Bug Fixes
