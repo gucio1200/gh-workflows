@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.2](https://github.com/gucio1200/gh-workflows/compare/v7.1.1...v7.1.2) (2026-02-03)
+
+### Bug Fixes
+
+* Fix gh commit ([80b4a62](https://github.com/gucio1200/gh-workflows/commit/80b4a6257193614ab57d0a88601b9bc479ea3110))
+
 ## [7.1.1](https://github.com/gucio1200/gh-workflows/compare/v7.1.0...v7.1.1) (2026-02-03)
 
 ### Bug Fixes
