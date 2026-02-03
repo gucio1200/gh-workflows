@@ -80,8 +80,8 @@ jobs:
         uses: peter-evans/create-pull-request@v8.1.0
         with:
           token: ${{ steps.generate-token.outputs.token }}
-          commit-message: "docs: Update README.md"
-          title: "docs: Update Terraform Documentation."
+          commit-message: "docs: Update README.md from ${{ github.sha }}"
+          title: "docs: Update Terraform Documentation from ${{ github.sha }}"
           body: |
             Automated update of `README.md` via `terraform-docs`.
             Triggered by commit: ${{ github.sha }}
