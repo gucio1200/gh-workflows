@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.6](https://github.com/gucio1200/gh-workflows/compare/v7.1.5...v7.1.6) (2026-02-04)
+
+### Bug Fixes
+
+* Populate vars in messages ([c997237](https://github.com/gucio1200/gh-workflows/commit/c9972376f03e3939aa0370efd4e1b855c20b4fb3))
+
 ## [7.1.5](https://github.com/gucio1200/gh-workflows/compare/v7.1.4...v7.1.5) (2026-02-04)
 
 ### Bug Fixes
