@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.1.7](https://github.com/gucio1200/gh-workflows/compare/v7.1.6...v7.1.7) (2026-02-04)
+
+### Bug Fixes
+
+* Optional action lint config ([#16](https://github.com/gucio1200/gh-workflows/issues/16)) ([1d74019](https://github.com/gucio1200/gh-workflows/commit/1d7401912bf3d628220da6febad4f3784e96ef11))
+
 ## [7.1.6](https://github.com/gucio1200/gh-workflows/compare/v7.1.5...v7.1.6) (2026-02-04)
 
 ### Bug Fixes
