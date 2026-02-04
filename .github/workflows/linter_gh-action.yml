@@ -3,6 +3,11 @@ name: "Action Lint"
 
 on:
   workflow_call:
+    inputs:
+      actionlint_config:
+        description: 'Path to actionlint config'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -29,5 +34,5 @@ jobs:
       if: steps.changed-files.outputs.changed_files != '[]'
       uses: bjw-s/action-actionlint@b346813e82708106544f48a93a5b3fbeeb8e37eb # v0.1.1
       with:
-        actionlint_config: .github/actionlint.yaml
+        actionlint_config: ${{ inputs.actionlint_config || '' }}
         file_pattern: ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
