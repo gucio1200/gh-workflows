@@ -17,6 +17,11 @@ on:
         description: "Version of semantic-release-action"
         type: string
         required: false
+      dry-run:
+        description: "Dry run mode"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   release:
@@ -53,5 +58,6 @@ jobs:
         uses: cycjimmy/semantic-release-action@v6.0.0
         with:
           semantic_version: ${{ inputs.semantic-release-version || '25.0.0' }}
+          dry_run: ${{ inputs.dry-run || 'false' }}
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
