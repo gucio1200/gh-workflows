@@ -5,9 +5,9 @@ on:
   workflow_call:
     inputs:
       actionlint_config:
-        description: 'Path to actionlint config'
+        description: "Path to actionlint config"
         type: string
-        default: ''
+        default: ""
 
 permissions:
   contents: read
