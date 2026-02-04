@@ -9,9 +9,6 @@ on:
       APP_PRIVATE_KEY:
         required: true
 
-permissions:
-  contents: read
-
 jobs:
   labeler:
     name: Labeler

@@ -12,7 +12,6 @@ on:
         description: "Version of terraform-docs to use"
         type: string
         required: false
-        # Default handled in logic
       working-dir:
         description: "Directory containing main.tf"
         type: string
