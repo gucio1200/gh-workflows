@@ -35,4 +35,4 @@ jobs:
       uses: bjw-s/action-actionlint@b346813e82708106544f48a93a5b3fbeeb8e37eb # v0.1.1
       with:
         actionlint_config: ${{ inputs.actionlint_config || '' }}
-        file_pattern: ${{ join(fromJSON(steps.changed-files.outputs.all_changed_files), ' ') }}
+        file_pattern: ${{ steps.changed-files.outputs.all_changed_files }}
