@@ -24,15 +24,15 @@ jobs:
 
     - name: Get changed files
       id: changed-files
-      uses: bjw-s-labs/action-changed-files@015416e33c709af88f84a4496f4030c1f0ef212e # v0.5.0
+      uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
       with:
-        patterns: |-
+        files: |
           .github/workflows/**.yaml
           .github/workflows/**.yml
 
     - name: Run actionlint
-      if: steps.changed-files.outputs.changed_files != '[]'
+      if: steps.changed-files.outputs.all_changed_files != '[]'
       uses: bjw-s/action-actionlint@b346813e82708106544f48a93a5b3fbeeb8e37eb # v0.1.1
       with:
         actionlint_config: ${{ inputs.actionlint_config || '' }}
-        file_pattern: ${{ join(fromJSON(steps.changed-files.outputs.changed_files), ' ') }}
+        file_pattern: ${{ join(fromJSON(steps.changed-files.outputs.all_changed_files), ' ') }}
