@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.2.0](https://github.com/gucio1200/gh-workflows/compare/v7.1.7...v7.2.0) (2026-02-06)
+
+### Features
+
+* Modify gh linters to support tj-actions/changed-files ([0a32dcf](https://github.com/gucio1200/gh-workflows/commit/0a32dcfebddceaaead504816ef9389d4b93561bd))
+
 ## [7.1.7](https://github.com/gucio1200/gh-workflows/compare/v7.1.6...v7.1.7) (2026-02-04)
 
 ### Bug Fixes
