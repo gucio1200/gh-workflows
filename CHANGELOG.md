@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.0](https://github.com/gucio1200/gh-workflows/compare/v7.2.0...v7.3.0) (2026-02-06)
+
+### Features
+
+* Exchange actions ([#17](https://github.com/gucio1200/gh-workflows/issues/17)) ([424a2ba](https://github.com/gucio1200/gh-workflows/commit/424a2baf31dac6f67891519656aeeecaf086c00e))
+
 ## [7.2.0](https://github.com/gucio1200/gh-workflows/compare/v7.1.7...v7.2.0) (2026-02-06)
 
 ### Features
