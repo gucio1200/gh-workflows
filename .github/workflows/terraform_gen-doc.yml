@@ -17,6 +17,11 @@ on:
         type: string
         required: false
         default: "."
+      runs-on:
+        description: "Default runner"
+        required: false
+        type: string
+        default: "ubuntu-latest"
 
 env:
   TERRAFORM_DOCS_VERSION: v0.20.0
@@ -25,7 +30,7 @@ env:
 jobs:
   main:
     name: Generate Docs
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
     steps:
       - name: Calculate Version
         id: version

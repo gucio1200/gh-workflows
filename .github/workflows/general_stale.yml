@@ -24,10 +24,15 @@ on:
         description: "Delete branch after closing PR"
         type: boolean
         required: false
+      runs-on:
+        description: "Default runner"
+        required: false
+        type: string
+        default: "ubuntu-latest"
 
 jobs:
   stale:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1

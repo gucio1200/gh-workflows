@@ -25,11 +25,16 @@ on:
         description: "Validate commit message for single-commit PRs"
         type: boolean
         required: false
+      runs-on:
+        description: "Default runner"
+        required: false
+        type: string
+        default: "ubuntu-latest"
 
 jobs:
   main:
     name: Validate PR title
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
