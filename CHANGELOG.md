@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.4.0](https://github.com/gucio1200/gh-workflows/compare/v7.3.0...v7.4.0) (2026-02-09)
+
+### Features
+
+* Select runner ([#18](https://github.com/gucio1200/gh-workflows/issues/18)) ([f54763c](https://github.com/gucio1200/gh-workflows/commit/f54763c3f162d0ced21551c773b894a07c4fc371))
+
 ## [7.3.0](https://github.com/gucio1200/gh-workflows/compare/v7.2.0...v7.3.0) (2026-02-06)
 
 ### Features
