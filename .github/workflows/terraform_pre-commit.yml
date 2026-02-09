@@ -17,6 +17,11 @@ on:
         type: boolean
         required: false
         default: true
+      runs-on:
+        description: "Default runner"
+        required: false
+        type: string
+        default: "ubuntu-latest"
 
 env:
   DEFAULT_TERRAFORM_DOCS_VERSION: v0.20.0
@@ -25,7 +30,7 @@ env:
 jobs:
   collectInputs:
     name: Collect workflow inputs
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
     outputs:
       directories: ${{ steps.dirs.outputs.directories }}
     steps:
@@ -39,7 +44,7 @@ jobs:
   preCommitMinVersions:
     name: Min TF pre-commit
     needs: collectInputs
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
@@ -74,7 +79,7 @@ jobs:
 
   preCommitMaxVersion:
     name: Max TF pre-commit
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
     needs: collectInputs
     steps:
       - name: Checkout

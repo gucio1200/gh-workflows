@@ -8,11 +8,17 @@ on:
         required: true
       APP_PRIVATE_KEY:
         required: true
+    inputs:
+      runs-on:
+        description: "Default runner"
+        required: false
+        type: string
+        default: "ubuntu-latest"
 
 jobs:
   labeler:
     name: Labeler
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runs-on || 'ubuntu-latest' }}
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     permissions:
       contents: read
