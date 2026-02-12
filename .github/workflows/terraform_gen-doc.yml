@@ -83,6 +83,8 @@ jobs:
 
       - name: Push terraform docs
         working-directory: ${{ inputs.working-dir || '.' }}
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           if [[ -n $(git status --porcelain README.md) ]]; then
             echo "Changes detected. Pushing to GitHub via API..."
