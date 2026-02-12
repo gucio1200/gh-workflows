@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.5.0](https://github.com/gucio1200/gh-workflows/compare/v7.4.1...v7.5.0) (2026-02-12)
+
+### Features
+
+* Use gh api to push changes file. ([ea3b960](https://github.com/gucio1200/gh-workflows/commit/ea3b96055744a3d3154293fed2b90fcd0605bf16))
+
 ## [7.4.1](https://github.com/gucio1200/gh-workflows/compare/v7.4.0...v7.4.1) (2026-02-12)
 
 ### Bug Fixes
