@@ -84,14 +84,17 @@ jobs:
       - name: Push terraform docs
         working-directory: ${{ inputs.working-dir || '.' }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add "README.md"
-          if ! git diff --cached --quiet --exit-code; then
-            echo "README.md has changed. Committing and pushing..."
-            git commit -m "docs: update terraform-docs"
-            git push
+          if [[ -n $(git status --porcelain README.md) ]]; then
+            echo "Changes detected. Pushing to GitHub via API..."
+            TARGET_BRANCH=${{ github.head_ref || github.ref_name }}
+            FILE_PATH="${{ inputs.working-dir != '.' && format('{0}/', inputs.working-dir) || '' }}README.md"
+            SHA=$(gh api "repos/${{ github.repository }}/contents/$FILE_PATH?ref=$TARGET_BRANCH" --jq '.sha' || echo "")
+            CONTENT=$(base64 -w 0 < README.md)
+            gh api --method PUT "/repos/${{ github.repository }}/contents/$FILE_PATH" \
+              -f message="docs: update terraform-docs" \
+              -f content="$CONTENT" \
+              -f branch="$TARGET_BRANCH" \
+              ${SHA:+-f sha="$SHA"} # Only include SHA if the file already exists
           else
-            echo "No changes to README.md. Nothing to commit."
+            echo "No changes to README.md. Skipping API call."
           fi
