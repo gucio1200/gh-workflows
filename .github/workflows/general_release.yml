@@ -69,6 +69,11 @@ jobs:
           token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
 
+      - name: Git Enforce App User
+        run: |
+          git config --global user.name "${{ steps.bot-metadata.outputs.bot-name }}"
+          git config --global user.email "${{ steps.bot-metadata.outputs.bot-email }}"
+
       - name: Set correct Node.js version
         uses: actions/setup-node@v6.2.0
         with:
