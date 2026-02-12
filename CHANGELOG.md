@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.1](https://github.com/gucio1200/gh-workflows/compare/v7.6.0...v7.6.1) (2026-02-12)
+
+### Bug Fixes
+
+* Correct token ref ([9794933](https://github.com/gucio1200/gh-workflows/commit/97949333fb234d5e92fb083d79c29366e843a338))
+* Exec correctly ([c319094](https://github.com/gucio1200/gh-workflows/commit/c319094dded873903068508dce65e561059ff3f9))
+* Refactor native ci for commit sign ([7bdec95](https://github.com/gucio1200/gh-workflows/commit/7bdec9587277b8f36fb1000094c4c0f629e4e39b))
+
 ## [7.6.0](https://github.com/gucio1200/gh-workflows/compare/v7.5.2...v7.6.0) (2026-02-12)
 
 ### Features
