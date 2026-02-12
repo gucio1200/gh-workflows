@@ -75,7 +75,9 @@ jobs:
         run: |
           git config --global user.name "${{ steps.bot-metadata.outputs.bot-name }}"
           git config --global user.email "${{ steps.bot-metadata.outputs.bot-email }}"
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@${{ github.server_url }}/${{ github.repository }}.git"
+
+          SERVER_DOMAIN=$(echo "${{ github.server_url }}" | sed 's|https://||')
+          git remote set-url origin "https://x-access-token:${APP_TOKEN}@${SERVER_DOMAIN}/${{ github.repository }}.git"
 
       - name: Set correct Node.js version
         uses: actions/setup-node@v6.2.0
