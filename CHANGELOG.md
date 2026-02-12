@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.4.1](https://github.com/gucio1200/gh-workflows/compare/v7.4.0...v7.4.1) (2026-02-12)
+
+### Bug Fixes
+
+* Exchange to @jno21/semantic-release-github-commit ([72a46ce](https://github.com/gucio1200/gh-workflows/commit/72a46ce99988f2800dcf5de61f85e9a8bd1c8ffb))
+
 ## [7.4.0](https://github.com/gucio1200/gh-workflows/compare/v7.3.0...v7.4.0) (2026-02-09)
 
 ### Features
