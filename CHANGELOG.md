@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.10](https://github.com/gucio1200/gh-workflows/compare/v7.6.9...v7.6.10) (2026-02-12)
+
+### Bug Fixes
+
+* Move permissions statement ([0594973](https://github.com/gucio1200/gh-workflows/commit/05949731ade4820c62159a3b0d60eedab8278603))
+* Use native token ([228dc8b](https://github.com/gucio1200/gh-workflows/commit/228dc8b245c23bf63aec20c313ebbd048f5f0210))
+
 ## [7.6.9](https://github.com/gucio1200/gh-workflows/compare/v7.6.8...v7.6.9) (2026-02-12)
 
 ### Bug Fixes
