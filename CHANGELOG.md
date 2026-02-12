@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.0](https://github.com/gucio1200/gh-workflows/compare/v7.5.2...v7.6.0) (2026-02-12)
+
+### Features
+
+* Simplify ([49b8f3a](https://github.com/gucio1200/gh-workflows/commit/49b8f3a0f6d2eb56a13a6da87c6a04e383a20902))
+
 ## [7.5.2](https://github.com/gucio1200/gh-workflows/compare/v7.5.1...v7.5.2) (2026-02-12)
 
 ### Bug Fixes
