@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.3](https://github.com/gucio1200/gh-workflows/compare/v7.6.2...v7.6.3) (2026-02-12)
+
+### Bug Fixes
+
+* Exchange to /user endpoint ([fee4683](https://github.com/gucio1200/gh-workflows/commit/fee46831b3ca6f5cf7ce6dc270b5ac2333233d9f))
+
 ## [7.6.2](https://github.com/gucio1200/gh-workflows/compare/v7.6.1...v7.6.2) (2026-02-12)
 
 ### Bug Fixes
