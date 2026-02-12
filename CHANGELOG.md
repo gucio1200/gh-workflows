@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.11](https://github.com/gucio1200/gh-workflows/compare/v7.6.10...v7.6.11) (2026-02-12)
+
+### Bug Fixes
+
+* Try this... ([83c5a5c](https://github.com/gucio1200/gh-workflows/commit/83c5a5c3e3cca768bafa25383e73184a92a376ed))
+
 ## [7.6.10](https://github.com/gucio1200/gh-workflows/compare/v7.6.9...v7.6.10) (2026-02-12)
 
 ### Bug Fixes
