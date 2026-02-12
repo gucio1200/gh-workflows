@@ -41,6 +41,28 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
+      - name: Get Bot User Metadata
+        id: bot-metadata
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}
+        run: |
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          if [[ "${{ github.server_url }}" == "https://github.com" ]]; then
+            EMAIL_DOMAIN="users.noreply.github.com"
+          else
+            CLEAN_HOST=$(echo "${{ github.server_url }}" | sed -e 's|^[^/]*//||' -e 's|/.*$||')
+            EMAIL_DOMAIN="users.noreply.${CLEAN_HOST}"
+          fi
+
+          BOT_NAME="${APP_SLUG}[bot]"
+          BOT_EMAIL="${USER_ID}+${APP_SLUG}[bot]@${EMAIL_DOMAIN}"
+
+          echo "Detected Identity: $BOT_NAME <$BOT_EMAIL>"
+          echo "bot-name=$BOT_NAME" >> "$GITHUB_OUTPUT"
+          echo "bot-email=$BOT_EMAIL" >> "$GITHUB_OUTPUT"
+          echo "user-id=$USER_ID" >> "$GITHUB_OUTPUT"
+
       - name: Checkout
         uses: actions/checkout@v6.0.2
         with:
@@ -67,9 +89,9 @@ jobs:
           GITHUB_URL: "${{ github.server_url }}"
           GITHUB_API_URL: "${{ github.api_url }}"
 
-#          GIT_AUTHOR_NAME: "${{ steps.app-metadata.outputs.bot-name }}"
-#          GIT_AUTHOR_EMAIL: "${{ steps.app-metadata.outputs.bot-id }}+${{ steps.app-metadata.outputs.bot-name }}@${{ steps.app-metadata.outputs.domain }}"
-#          GIT_COMMITTER_NAME: "${{ steps.app-metadata.outputs.bot-name }}"
-#          GIT_COMMITTER_EMAIL: "${{ steps.app-metadata.outputs.bot-id }}+${{ steps.app-metadata.outputs.bot-name }}@${{ steps.app-metadata.outputs.domain }}"
+          GIT_AUTHOR_NAME: ${{ steps.bot-metadata.outputs.bot-name }}
+          GIT_AUTHOR_EMAIL: ${{ steps.bot-metadata.outputs.bot-email }}
+          GIT_COMMITTER_NAME: ${{ steps.bot-metadata.outputs.bot-name }}
+          GIT_COMMITTER_EMAIL: ${{ steps.bot-metadata.outputs.bot-email }}
 
         run: npx semantic-release --config .releaserc.json
