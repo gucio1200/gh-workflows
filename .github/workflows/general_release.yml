@@ -53,7 +53,7 @@ jobs:
           node-version: ${{ inputs.node-version || 24 }}
 
       - name: Get App Metadata
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         id: app-metadata
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
