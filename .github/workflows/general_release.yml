@@ -85,4 +85,4 @@ jobs:
           GIT_AUTHOR_EMAIL: "${{ steps.app-metadata.outputs.app-id }}+${{ steps.app-metadata.outputs.app-name }}[bot]@users.noreply.${{ steps.app-metadata.outputs.domain }}"
           GIT_COMMITTER_NAME: "${{ steps.app-metadata.outputs.app-name }}[bot]"
           GIT_COMMITTER_EMAIL: "${{ steps.app-metadata.outputs.app-id }}+${{ steps.app-metadata.outputs.app-name }}[bot]@users.noreply.${{ steps.app-metadata.outputs.domain }}"
-        run: semantic-release --config .releaserc.json
+        run: npx semantic-release --config .releaserc.json
