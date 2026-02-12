@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.6.8](https://github.com/gucio1200/gh-workflows/compare/v7.6.7...v7.6.8) (2026-02-12)
+
+### Bug Fixes
+
+* Change origin to https... ([36f1b93](https://github.com/gucio1200/gh-workflows/commit/36f1b93e7264fdb0ecd9b8bdd85129622824ee7e))
+* Exchange domain ([ee70847](https://github.com/gucio1200/gh-workflows/commit/ee70847a5183fa4c958c59ce4398fd01eed7f951))
+
 ## [7.6.7](https://github.com/gucio1200/gh-workflows/compare/v7.6.6...v7.6.7) (2026-02-12)
 
 ### Bug Fixes
