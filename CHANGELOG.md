@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.5.2](https://github.com/gucio1200/gh-workflows/compare/v7.5.1...v7.5.2) (2026-02-12)
+
+### Bug Fixes
+
+* Add GH_TOKEN ([c9be291](https://github.com/gucio1200/gh-workflows/commit/c9be291dbedd4e0752c93ff3522dec7211092739))
+
 ## [7.5.1](https://github.com/gucio1200/gh-workflows/compare/v7.5.0...v7.5.1) (2026-02-12)
 
 ### Bug Fixes
