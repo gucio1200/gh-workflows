@@ -86,17 +86,20 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          if [[ -n $(git status --porcelain README.md) ]]; then
-            echo "Changes detected. Pushing to GitHub via API..."
-            TARGET_BRANCH=${{ github.head_ref || github.ref_name }}
-            FILE_PATH="${{ inputs.working-dir != '.' && format('{0}/', inputs.working-dir) || '' }}README.md"
-            SHA=$(gh api "repos/${{ github.repository }}/contents/$FILE_PATH?ref=$TARGET_BRANCH" --jq '.sha' || echo "")
-            CONTENT=$(base64 -w 0 < README.md)
+          if ! git diff --quiet README.md; then
+            # Get the path relative to the repo root (e.g., "README.md" or "modules/vpc/README.md")
+            FILE_PATH=$(realpath --relative-to="${{ github.workspace }}" README.md)
+            BRANCH="${{ github.head_ref || github.ref_name }}"
+
+            echo "Pushing $FILE_PATH to $BRANCH..."
+
+            # Get the current SHA (required for update)
+            SHA=$(gh api "repos/${{ github.repository }}/contents/$FILE_PATH?ref=$BRANCH" -q .sha 2>/dev/null || echo "")
+
+            # API call to update/create the file
             gh api --method PUT "/repos/${{ github.repository }}/contents/$FILE_PATH" \
               -f message="docs: update terraform-docs" \
-              -f content="$CONTENT" \
-              -f branch="$TARGET_BRANCH" \
-              ${SHA:+-f sha="$SHA"} # Only include SHA if the file already exists
-          else
-            echo "No changes to README.md. Skipping API call."
+              -f branch="$BRANCH" \
+              -f content="$(base64 -w 0 README.md)" \
+              ${SHA:+-f sha="$SHA"}
           fi
