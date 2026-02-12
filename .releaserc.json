@@ -33,12 +33,12 @@
       }
     ],
     [
-      "@jno21/semantic-release-github-commit",
+      "@semantic-release/git",
       {
-        "files": [
+        "assets": [
           "CHANGELOG.md"
         ],
-        "commitMessage": "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "message": "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
   ]
