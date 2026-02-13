@@ -36,30 +36,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
         with:
+          persist-credentials: false
           fetch-depth: 0
 
-      - name: Configure Git for GHES Actions Bot
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ACTIONS_BOT_ID=$(gh api "/users/github-actions[bot]" --jq .id)
-          CLEAN_HOST=$(echo "${{ github.server_url }}" | sed -e 's|^[^/]*//||' -e 's|/.*$||')
-          EMAIL_DOMAIN="users.noreply.${CLEAN_HOST}"
-
-          BOT_NAME="github-actions[bot]"
-          BOT_EMAIL="${ACTIONS_BOT_ID}+${BOT_NAME}@${EMAIL_DOMAIN}"
-
-          BOT_NAME="github-actions[bot]"
-          BOT_EMAIL="${ACTIONS_BOT_ID}+${BOT_NAME}@${EMAIL_DOMAIN}"
-
-          echo "Detected Identity: $BOT_NAME <$BOT_EMAIL>"
-
-          # 4. EXPORT TO GITHUB_ENV (This is the critical fix)
-          # This makes these variables available to all subsequent steps automatically
-          echo "GIT_AUTHOR_NAME=$BOT_NAME" >> $GITHUB_ENV
-          echo "GIT_AUTHOR_EMAIL=$BOT_EMAIL" >> $GITHUB_ENV
-          echo "GIT_COMMITTER_NAME=$BOT_NAME" >> $GITHUB_ENV
-          echo "GIT_COMMITTER_EMAIL=$BOT_EMAIL" >> $GITHUB_ENV
+      - name: Generate Token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Set correct Node.js version
         uses: actions/setup-node@v6.2.0
@@ -68,10 +54,10 @@ jobs:
 
       - name: Install dependencies
         run: |
+          npm install -D github:gucio1200/semantic-release-github-commit#main
           npm install \
             semantic-release@25.0.0 \
             @semantic-release/changelog@6.0.3 \
-            @semantic-release/git@10.0.1 \
             @semantic-release/github@12.0.6 \
             conventional-changelog-conventionalcommits@9.1.0
 

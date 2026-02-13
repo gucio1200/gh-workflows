@@ -33,12 +33,12 @@
       }
     ],
     [
-      "@semantic-release/git",
+      "@gucio1200/semantic-release-github-commit",
       {
-        "assets": [
+        "files": [
           "CHANGELOG.md"
         ],
-        "message": "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "commitMessage": "chore(release): version ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
   ]
