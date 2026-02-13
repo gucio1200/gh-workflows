@@ -15,7 +15,3 @@ jobs:
   Release:
     uses: ./.github/workflows/general_release.yml
     secrets: inherit
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write

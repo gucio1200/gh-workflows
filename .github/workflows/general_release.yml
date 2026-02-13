@@ -63,9 +63,7 @@ jobs:
 
       - name: Run Semantic Release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_URL: "${{ github.server_url }}"
-          GITHUB_API_URL: "${{ github.api_url }}"
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: npx semantic-release --config .releaserc.json
 
       - name: Debug Commit Identity
