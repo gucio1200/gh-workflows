@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.7.0](https://github.com/gucio1200/gh-workflows/compare/v7.6.11...v7.7.0) (2026-02-13)
+
+### Features
+
+* Run form fork... ([b0a89ae](https://github.com/gucio1200/gh-workflows/commit/b0a89ae699e7fc1da3b8f4571d71488a90e5caf8))
+
+### Bug Fixes
+
+* Correct github token ([f27d6c2](https://github.com/gucio1200/gh-workflows/commit/f27d6c26e6e248c380925c9e6095f2f4a530c920))
+* Exchange ([95eb3d1](https://github.com/gucio1200/gh-workflows/commit/95eb3d10d9bf91c944012e32f5cdb3281f744301))
+* Try now... ([503a3e0](https://github.com/gucio1200/gh-workflows/commit/503a3e0621da7295939b41e8badf1f70356d930f))
+* Try now... ([e558d54](https://github.com/gucio1200/gh-workflows/commit/e558d54ce1ffd13fffffa940ac343c412c376cbf))
+
 ## [7.6.11](https://github.com/gucio1200/gh-workflows/compare/v7.6.10...v7.6.11) (2026-02-12)
 
 ### Bug Fixes
