@@ -58,6 +58,7 @@ jobs:
           npm install \
             semantic-release@25.0.0 \
             @semantic-release/changelog@6.0.3 \
+            @jno21/semantic-release-github-commit@1.0.0 \
             conventional-changelog-conventionalcommits@9.1.0
 
       - name: Run Semantic Release
