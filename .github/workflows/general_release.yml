@@ -66,8 +66,8 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: npx semantic-release --config .releaserc.json
 
-      - name: Debug Commit Identity
-        if: always() # Run even if release fails
-        run: |
-          echo "=== Last Commit Metadata ==="
-          git log -1 --pretty=fuller
+#      - name: Debug Commit Identity
+#        if: always() # Run even if release fails
+#        run: |
+#          echo "=== Last Commit Metadata ==="
+#          git log -1 --pretty=fuller
