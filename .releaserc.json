@@ -33,7 +33,7 @@
       }
     ],
     [
-      "@gucio1200/semantic-release-github-commit",
+      "@jno21/semantic-release-github-commit",
       {
         "files": [
           "CHANGELOG.md"
