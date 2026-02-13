@@ -62,7 +62,7 @@ jobs:
 
       - name: Run Semantic Release
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: npx semantic-release --config .releaserc.json
 
       - name: Debug Commit Identity
