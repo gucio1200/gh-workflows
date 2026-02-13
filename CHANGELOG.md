@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.7.1](https://github.com/gucio1200/gh-workflows/compare/v7.7.0...v7.7.1) (2026-02-13)
+
+### Bug Fixes
+
+* Exchange again ([703bfcb](https://github.com/gucio1200/gh-workflows/commit/703bfcb05febcd4a7762fc5de4d7ed61dbe4073e))
+* Trigger ([e4ccd9d](https://github.com/gucio1200/gh-workflows/commit/e4ccd9d474791a41f28df32b08cbfac78b344fe6))
+
 ## [7.7.0](https://github.com/gucio1200/gh-workflows/compare/v7.6.11...v7.7.0) (2026-02-13)
 
 ### Features
