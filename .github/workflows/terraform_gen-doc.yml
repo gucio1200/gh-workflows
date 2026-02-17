@@ -26,7 +26,7 @@ on:
 env:
   TERRAFORM_DOCS_VERSION: v0.20.0
   TF_DOCS_PATH: ${{ github.workspace }}/.bin/terraform-docs
-  GH_CLI_VERSION: "2.86.0"
+  GH_CLI_VERSION: 2.86.0
   GH_CLI_PATH: ${{ github.workspace }}/.bin/gh
 
 jobs:
