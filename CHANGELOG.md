@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.7.3](https://github.com/gucio1200/gh-workflows/compare/v7.7.2...v7.7.3) (2026-02-17)
+
+### Bug Fixes
+
+* Remove quota from version ([a721cfb](https://github.com/gucio1200/gh-workflows/commit/a721cfbbb18f07b816cf0cc46c71492d76035ad1))
+
 ## [7.7.2](https://github.com/gucio1200/gh-workflows/compare/v7.7.1...v7.7.2) (2026-02-13)
 
 ### Bug Fixes
