@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.8.0](https://github.com/gucio1200/gh-workflows/compare/v7.7.4...v7.8.0) (2026-02-17)
+
+### Features
+
+* Make TF/GH dyn variables ([58a7d68](https://github.com/gucio1200/gh-workflows/commit/58a7d68e54d45f391ce7e588128b618d9ec657d9))
+
 ## [7.7.4](https://github.com/gucio1200/gh-workflows/compare/v7.7.3...v7.7.4) (2026-02-17)
 
 ### Bug Fixes
