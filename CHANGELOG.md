@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.9.0](https://github.com/gucio1200/gh-workflows/compare/v7.8.0...v7.9.0) (2026-02-17)
+
+### Features
+
+* Refactor whole tf DOC workflow ([0c49c8e](https://github.com/gucio1200/gh-workflows/commit/0c49c8e163c7352e58b2718b43f0637c153257d1))
+
 ## [7.8.0](https://github.com/gucio1200/gh-workflows/compare/v7.7.4...v7.8.0) (2026-02-17)
 
 ### Features
