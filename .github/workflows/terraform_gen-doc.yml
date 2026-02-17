@@ -44,7 +44,7 @@ jobs:
           echo "GH_CLI_VERSION=${{ inputs.gh-cli-version || env.GH_CLI_VERSION }}" >> "$GITHUB_OUTPUT"
 
       - name: Generate Token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         id: generate-token
         with:
           app-id: ${{ secrets.APP_ID }}
