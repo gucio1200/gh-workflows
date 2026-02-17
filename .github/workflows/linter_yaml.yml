@@ -41,4 +41,4 @@ jobs:
       if: steps.changed-files.outputs.any_changed == 'true'
       shell: bash
       run: |
-        yamllint --config-file .yamllint.yaml --format github ${{ steps.changed-files.outputs.all_changed_files }}
+        yamllint --format github ${{ steps.changed-files.outputs.all_changed_files }}
