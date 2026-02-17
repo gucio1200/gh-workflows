@@ -12,6 +12,10 @@ on:
         description: "Version of terraform-docs to use"
         type: string
         required: false
+      gh-cli-version:
+        description: "Version of gh cli to use"
+        type: string
+        required: false
       working-dir:
         description: "Directory containing main.tf"
         type: string
@@ -37,7 +41,8 @@ jobs:
       - name: Calculate Version
         id: version
         run: |
-          echo "VERSION=${{ inputs.terraform-docs-version || env.TERRAFORM_DOCS_VERSION }}" >> "$GITHUB_OUTPUT"
+          echo "TF_DOC_VERSION=${{ inputs.terraform-docs-version || env.TERRAFORM_DOCS_VERSION }}" >> "$GITHUB_OUTPUT"
+          echo "GH_CLI_VERSION=${{ inputs.gh-cli-version || env.GH_CLI_VERSION }}" >> "$GITHUB_OUTPUT"
 
       - name: Generate Token
         uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
@@ -57,12 +62,12 @@ jobs:
         uses: actions/cache@v5.0.3
         with:
           path: ${{ env.TF_DOCS_PATH }}
-          key: terraform-docs-${{ runner.os }}-${{ steps.version.outputs.VERSION }}
+          key: terraform-docs-${{ runner.os }}-${{ steps.version.outputs.TF_DOC_VERSION }}
 
       - name: Install terraform-docs
         if: steps.cache-tf-docs.outputs.cache-hit != 'true'
         run: |
-          VERSION=${{ steps.version.outputs.VERSION }}
+          VERSION=${{ steps.version.outputs.TF_DOC_VERSION }}
           mkdir -p "$(dirname ${{ env.TF_DOCS_PATH }})"
           echo "Installing terraform-docs $VERSION..."
 
@@ -77,12 +82,12 @@ jobs:
         uses: actions/cache@v5.0.3
         with:
           path: ${{ env.GH_CLI_PATH }}
-          key: gh-cli-${{ runner.os }}-${{ env.GH_CLI_VERSION }}
+          key: gh-cli-${{ runner.os }}-${{ steps.version.outputs.GH_CLI_VERSION }}
 
       - name: Install GH CLI
         if: steps.cache-gh-cli.outputs.cache-hit != 'true'
         run: |
-          VERSION=${{ env.GH_CLI_VERSION }}
+          VERSION=${{ steps.version.outputs.GH_CLI_VERSION }}
           mkdir -p "$(dirname ${{ env.GH_CLI_PATH }})"
           echo "Installing GH CLI v$VERSION..."
           curl -Lo gh-cli.tar.gz "https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_linux_amd64.tar.gz"
