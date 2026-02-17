@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.10.1](https://github.com/gucio1200/gh-workflows/compare/v7.10.0...v7.10.1) (2026-02-17)
+
+### Bug Fixes
+
+* Bump tf docs again ([af8cc9e](https://github.com/gucio1200/gh-workflows/commit/af8cc9ee3944c101bbccc51c8f22d182401cdc92))
+
 ## [7.10.0](https://github.com/gucio1200/gh-workflows/compare/v7.9.0...v7.10.0) (2026-02-17)
 
 ### Features
