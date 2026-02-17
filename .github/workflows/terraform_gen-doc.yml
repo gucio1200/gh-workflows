@@ -58,7 +58,7 @@ jobs:
 
       - name: Cache terraform-docs
         id: cache-tf-docs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.BIN_DIR }}/terraform-docs
           key: terraform-docs-${{ runner.os }}-${{ steps.version.outputs.TF_DOC_VERSION }}
@@ -77,7 +77,7 @@ jobs:
 
       - name: Cache GH CLI
         id: cache-gh-cli
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.BIN_DIR }}/gh
           key: gh-cli-${{ runner.os }}-${{ steps.version.outputs.GH_CLI_VERSION }}
