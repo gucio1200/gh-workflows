@@ -124,7 +124,13 @@ jobs:
 
           echo "Pushing $FILE_PATH to $BRANCH on $GH_HOST..."
 
-          SHA=$(gh api "repos/${{ github.repository }}/contents/$FILE_PATH?ref=$BRANCH" --hostname "$GH_HOST" -q .sha || true)
+          SHA=""
+          if gh api --method HEAD "repos/$REPO/contents/$FILE_PATH?ref=$BRANCH" --hostname "$HOST_ONLY" >/dev/null 2>&1; then
+             echo "File exists. Fetching SHA..."
+             SHA=$(gh api "repos/$REPO/contents/$FILE_PATH?ref=$BRANCH" --hostname "$HOST_ONLY" --jq .sha)
+          else
+             echo "File does not exist. Creating new..."
+          fi
 
           gh api --method PUT "/repos/${{ github.repository }}/contents/$FILE_PATH" \
             --hostname "$GH_HOST" \
