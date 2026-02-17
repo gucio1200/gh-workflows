@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.10.0](https://github.com/gucio1200/gh-workflows/compare/v7.9.0...v7.10.0) (2026-02-17)
+
+### Features
+
+* Move back to new versions ([3fcde07](https://github.com/gucio1200/gh-workflows/commit/3fcde07daaa1bff91f6c664b33f0076f556ff9d1))
+
 ## [7.9.0](https://github.com/gucio1200/gh-workflows/compare/v7.8.0...v7.9.0) (2026-02-17)
 
 ### Features
