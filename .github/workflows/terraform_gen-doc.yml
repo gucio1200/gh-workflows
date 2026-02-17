@@ -29,7 +29,7 @@ on:
         default: "ubuntu-latest"
 
 env:
-  TERRAFORM_DOCS_VERSION: v0.17.0
+  TERRAFORM_DOCS_VERSION: v0.20.0
   GH_CLI_VERSION: 2.86.0
   BIN_DIR: ${{ github.workspace }}/.bin
 
