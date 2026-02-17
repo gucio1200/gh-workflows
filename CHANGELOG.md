@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.7.4](https://github.com/gucio1200/gh-workflows/compare/v7.7.3...v7.7.4) (2026-02-17)
+
+### Bug Fixes
+
+* Linter yaml ([ea282c7](https://github.com/gucio1200/gh-workflows/commit/ea282c76d7cc79ea2c4e38b05b113346599cb935))
+
 ## [7.7.3](https://github.com/gucio1200/gh-workflows/compare/v7.7.2...v7.7.3) (2026-02-17)
 
 ### Bug Fixes
