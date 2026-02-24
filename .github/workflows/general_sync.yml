@@ -73,7 +73,7 @@ jobs:
           URL="${{ env.SOURCE_REPO_URL }}"
           NWO=${URL#*github.com/}
           NWO=${NWO%.git}
-          echo "SOURCE_REPO_NWO=$NWO" >> $GITHUB_ENV
+          echo "SOURCE_REPO_NWO=$NWO" >> "$GITHUB_ENV"
 
       - name: Clone Source & Extract SHA
         run: |
@@ -82,7 +82,7 @@ jobs:
           git clone --depth 1 --branch "${{ inputs.branch }}" "${{ env.SOURCE_REPO_URL }}" "${{ runner.temp }}/source-repo"
           cd ${{ runner.temp }}/source-repo
           SOURCE_SHA=$(git rev-parse --short HEAD)
-          echo "SOURCE_SHA=$SOURCE_SHA" >> $GITHUB_ENV
+          echo "SOURCE_SHA=$SOURCE_SHA" >> "$GITHUB_ENV"
           echo "Source commit SHA: $SOURCE_SHA"
 
       - name: Sync Files
