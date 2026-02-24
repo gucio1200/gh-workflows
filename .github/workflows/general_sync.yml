@@ -79,7 +79,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "Cloning branch '${{ inputs.branch }}' from ${{ env.SOURCE_REPO_URL }}..."
-          git clone --depth 1 --branch ${{ inputs.branch }} ${{ env.SOURCE_REPO_URL }} ${{ runner.temp }}/source-repo
+          git clone --depth 1 --branch "${{ inputs.branch }}" "${{ env.SOURCE_REPO_URL }}" "${{ runner.temp }}/source-repo"
           cd ${{ runner.temp }}/source-repo
           SOURCE_SHA=$(git rev-parse --short HEAD)
           echo "SOURCE_SHA=$SOURCE_SHA" >> $GITHUB_ENV
@@ -89,13 +89,14 @@ jobs:
         run: |
           set -euo pipefail
           RSYNC_ARGS=(--exclude='.github' --exclude='.git')
-          for EXCLUDE in ${{ inputs.extra_excludes }}; do
+          read -ra EXCLUDES_ARRAY <<< "${{ inputs.extra_excludes }}"
+          for EXCLUDE in "${EXCLUDES_ARRAY[@]}"; do
             if [ -n "$EXCLUDE" ]; then
               RSYNC_ARGS+=(--exclude="$EXCLUDE")
             fi
           done
-          echo "Running rsync with arguments: ${RSYNC_ARGS[@]}"
-          rsync -av --delete "${RSYNC_ARGS[@]}" ${{ runner.temp }}/source-repo/ ./
+          echo "Running rsync with arguments: ${RSYNC_ARGS[*]}"
+          rsync -av --delete "${RSYNC_ARGS[@]}" "${{ runner.temp }}/source-repo/" ./
 
       - name: Commit and Push Code Updates
         run: |
@@ -104,10 +105,9 @@ jobs:
           if ! git diff --quiet --staged; then
             echo "Changes detected. Committing..."
             git commit -m "Automated sync from remote source" -m "Source Commit SHA: ${{ env.SOURCE_SHA }}"
-            # Rebase protection in case of overlapping human pushes
-            git pull --rebase origin ${{ inputs.branch }}
+            git pull --rebase origin "${{ inputs.branch }}"
             if [ "${{ inputs.dry_run }}" == "false" ]; then
-              git push origin HEAD:${{ inputs.branch }}
+              git push origin "HEAD:${{ inputs.branch }}"
               echo "Successfully pushed to ${{ inputs.branch }}"
             else
               echo "DRY RUN: Skipping code push to ${{ inputs.branch }}"
@@ -122,7 +122,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "Fetching tags from source..."
-          SOURCE_TAGS=$(gh api repos/${{ env.SOURCE_REPO_NWO }}/tags --paginate --jq '.[].name' || echo "")
+          SOURCE_TAGS=$(gh api "repos/${{ env.SOURCE_REPO_NWO }}/tags" --paginate --jq '.[].name' || echo "")
           DEST_TAGS=$(git tag || echo "")
 
           if [ -z "$SOURCE_TAGS" ]; then
@@ -130,41 +130,53 @@ jobs:
             exit 0
           fi
 
-          # Iterate backwards (tac) so older tags are created first
-          for TAG in $(echo "$SOURCE_TAGS" | tac); do
+          echo "$SOURCE_TAGS" | tac | while IFS= read -r TAG; do
+            # Skip empty lines
+            if [ -z "$TAG" ]; then continue; fi
+
             if echo "$DEST_TAGS" | grep -qx "$TAG"; then
               echo "Tag $TAG already exists locally. Skipping."
               continue
             fi
+
             echo "Syncing Tag and Release: $TAG"
+
             if [ "${{ inputs.dry_run }}" == "false" ]; then
-              git tag $TAG
-              git push origin $TAG
+              git tag "$TAG"
+              git push origin "$TAG"
             else
               echo "DRY RUN: Skipping tag creation for $TAG"
             fi
-            # Fetch release metadata (|| echo "not_found" prevents failure if tag has no release)
-            RELEASE_DATA=$(gh release view $TAG -R ${{ env.SOURCE_REPO_NWO }} --json name,body,isDraft,isPrerelease 2>/dev/null || echo "not_found")
+
+            RELEASE_DATA=$(gh release view "$TAG" -R "${{ env.SOURCE_REPO_NWO }}" --json name,body,isDraft,isPrerelease 2>/dev/null || echo "not_found")
+
             if [ "$RELEASE_DATA" != "not_found" ] && [ -n "$RELEASE_DATA" ]; then
               NAME=$(echo "$RELEASE_DATA" | jq -r '.name // empty')
               BODY=$(echo "$RELEASE_DATA" | jq -r '.body // empty')
               DRAFT=$(echo "$RELEASE_DATA" | jq -r '.isDraft // false')
               PRE=$(echo "$RELEASE_DATA" | jq -r '.isPrerelease // false')
+
               if [ "${{ inputs.dry_run }}" == "false" ]; then
                 echo "Creating release $TAG..."
-                gh release create $TAG \
+
+                REL_ARGS=()
+                if [ "$DRAFT" = "true" ]; then REL_ARGS+=(--draft); fi
+                if [ "$PRE" = "true" ]; then REL_ARGS+=(--prerelease); fi
+
+                gh release create "$TAG" \
                   --title "$NAME" \
                   --notes "$BODY" \
-                  $( [ "$DRAFT" = "true" ] && echo "--draft" ) \
-                  $( [ "$PRE" = "true" ] && echo "--prerelease" )
-                # Handle Release Assets
+                  "${REL_ARGS[@]}"
+
                 ASSET_DIR="${{ runner.temp }}/assets-$TAG"
                 mkdir -p "$ASSET_DIR"
+
                 echo "Downloading assets from source..."
-                gh release download $TAG -R ${{ env.SOURCE_REPO_NWO }} --dir "$ASSET_DIR" || true
+                gh release download "$TAG" -R "${{ env.SOURCE_REPO_NWO }}" --dir "$ASSET_DIR" || true
+
                 if [ "$(ls -A "$ASSET_DIR" 2>/dev/null)" ]; then
                   echo "Uploading assets to destination..."
-                  gh release upload $TAG "$ASSET_DIR"/*
+                  gh release upload "$TAG" "$ASSET_DIR"/*
                 fi
                 rm -rf "$ASSET_DIR"
               else
