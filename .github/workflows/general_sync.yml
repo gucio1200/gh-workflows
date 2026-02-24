@@ -14,7 +14,7 @@ on:
         default: "main"
         type: string
       extra_excludes:
-        description: "Space-separated list of extra files to exclude (e.g., "README.md LICENSE")"
+        description: "Space-separated list of extra files to exclude (e.g., README.md LICENSE)"
         required: false
         default: ""
         type: string
