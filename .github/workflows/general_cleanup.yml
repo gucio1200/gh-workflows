@@ -1,13 +1,14 @@
+---
 name: Reusable Repository Cleanup (Wipe All)
 
 on:
   workflow_call:
     secrets:
       APP_ID:
-        description: 'The ID of the GitHub App used for syncing/cleanup'
+        description: "The ID of the GitHub App used for syncing/cleanup"
         required: true
       APP_PRIVATE_KEY:
-        description: 'The Private Key of the GitHub App'
+        description: "The Private Key of the GitHub App"
         required: true
 
 jobs:
