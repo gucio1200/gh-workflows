@@ -75,14 +75,11 @@ jobs:
           echo "Cloning full history from public github.com..."
           git clone --bare "https://github.com/${{ env.SOURCE_REPO_NWO }}.git" "${{ runner.temp }}/source-repo"
 
-- name: Rewrite History (Remove Exclusions)
+      - name: Rewrite History (Remove Exclusions)
         run: |
           set -euo pipefail
-          
-          # 1. Target the source repo's .github folder for removal
           FILTER_ARGS="--path .github "
 
-          # 2. Add any extra exclusions from the input
           read -ra EXCLUDES_ARRAY <<< "${{ inputs.extra_excludes }}"
           for EXCLUDE in "${EXCLUDES_ARRAY[@]}"; do
             if [ -n "$EXCLUDE" ]; then
@@ -90,7 +87,6 @@ jobs:
             fi
           done
 
-          # 3. Add the invert flag ONCE at the end
           FILTER_ARGS+="--invert-paths"
 
           echo "Rewriting history to remove exclusions via Docker..."
