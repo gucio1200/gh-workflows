@@ -75,17 +75,23 @@ jobs:
           echo "Cloning full history from public github.com..."
           git clone --bare "https://github.com/${{ env.SOURCE_REPO_NWO }}.git" "${{ runner.temp }}/source-repo"
 
-      - name: Rewrite History (Remove Excluded Files)
+- name: Rewrite History (Remove Exclusions)
         run: |
           set -euo pipefail
-          FILTER_ARGS="--path .github --invert-paths "
+          
+          # 1. Target the source repo's .github folder for removal
+          FILTER_ARGS="--path .github "
 
+          # 2. Add any extra exclusions from the input
           read -ra EXCLUDES_ARRAY <<< "${{ inputs.extra_excludes }}"
           for EXCLUDE in "${EXCLUDES_ARRAY[@]}"; do
             if [ -n "$EXCLUDE" ]; then
-              FILTER_ARGS+="--path $EXCLUDE --invert-paths "
+              FILTER_ARGS+="--path $EXCLUDE "
             fi
           done
+
+          # 3. Add the invert flag ONCE at the end
+          FILTER_ARGS+="--invert-paths"
 
           echo "Rewriting history to remove exclusions via Docker..."
           docker run --rm \
@@ -99,7 +105,7 @@ jobs:
               git filter-repo ${FILTER_ARGS} --force
             "
 
-      - name: Push Rewritten History to Destination
+      - name: Inject Local Workflows and Push
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           GH_HOST: ${{ github.server_url }}
@@ -108,7 +114,23 @@ jobs:
           export GH_HOST=${GH_HOST#*//}
 
           cd "${{ runner.temp }}/source-repo"
+
+          DEFAULT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git worktree add ../source-worktree "$DEFAULT_BRANCH"
+          cd ../source-worktree
+
+          echo "Restoring local .github folder..."
+          if [ -d "${{ github.workspace }}/.github" ]; then
+            cp -R "${{ github.workspace }}/.github" .
+            git add .github
+            git commit -m "chore: restore local GitHub Actions workflows" || echo "No workflow changes needed to commit."
+          else
+            echo "No local .github folder found to inject."
+          fi
+
+          cd ../source-repo
           DEST_URL="https://x-access-token:${GH_TOKEN}@${GH_HOST}/${{ github.repository }}.git"
+
           echo "Pushing full history and tags to destination..."
           if [ "${{ inputs.dry_run }}" == "false" ]; then
             git push --mirror --force "$DEST_URL"
