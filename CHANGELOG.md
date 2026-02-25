@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.11.0](https://github.com/gucio1200/gh-workflows/compare/v7.10.1...v7.11.0) (2026-02-25)
+
+### Features
+
+* Add repo syncer ([#26](https://github.com/gucio1200/gh-workflows/issues/26)) ([ab6f346](https://github.com/gucio1200/gh-workflows/commit/ab6f346333391ab5dc5bfdca38a563eae5f6f15f))
+
 ## [7.10.1](https://github.com/gucio1200/gh-workflows/compare/v7.10.0...v7.10.1) (2026-02-17)
 
 ### Bug Fixes
