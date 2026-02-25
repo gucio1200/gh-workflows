@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.14.4](https://github.com/gucio1200/gh-workflows/compare/v7.14.3...v7.14.4) (2026-02-25)
+
+### Bug Fixes
+
+* Ownership ([24ac8d7](https://github.com/gucio1200/gh-workflows/commit/24ac8d773baa3ce21fb1d4ffe2a7070cf396801e))
+
 ## [7.14.3](https://github.com/gucio1200/gh-workflows/compare/v7.14.2...v7.14.3) (2026-02-25)
 
 ### Bug Fixes
