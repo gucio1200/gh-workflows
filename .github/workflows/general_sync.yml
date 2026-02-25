@@ -69,54 +69,50 @@ jobs:
           NWO=${NWO%.git}
           echo "SOURCE_REPO_NWO=$NWO" >> "$GITHUB_ENV"
 
-      - name: Clone Source & Extract SHA
+      - name: Clone Source
         run: |
           set -euo pipefail
-          echo "Cloning branch '${{ github.ref_name }}' from ${{ env.SOURCE_REPO_URL }}..."
-          git clone --depth 1 --branch "${{ github.ref_name }}" "${{ env.SOURCE_REPO_URL }}" "${{ runner.temp }}/source-repo"
-          cd "${{ runner.temp }}/source-repo"
-          SOURCE_SHA=$(git rev-parse --short HEAD)
-          echo "SOURCE_SHA=$SOURCE_SHA" >> "$GITHUB_ENV"
-          echo "Source commit SHA: $SOURCE_SHA"
+          echo "Cloning full history from public github.com..."
+          git clone --bare "https://github.com/${{ env.SOURCE_REPO_NWO }}.git" "${{ runner.temp }}/source-repo.git"
 
-      - name: Sync Files
+      - name: Rewrite History (Remove Excluded Files)
         run: |
           set -euo pipefail
-          RSYNC_ARGS=(--exclude='.github' --exclude='.git')
+          FILTER_ARGS="--path .github --invert-paths "
+
           read -ra EXCLUDES_ARRAY <<< "${{ inputs.extra_excludes }}"
           for EXCLUDE in "${EXCLUDES_ARRAY[@]}"; do
             if [ -n "$EXCLUDE" ]; then
-              RSYNC_ARGS+=(--exclude="$EXCLUDE")
+              FILTER_ARGS+="--path $EXCLUDE --invert-paths "
             fi
           done
-          echo "Running rsync via ephemeral Docker container..."
+
+          echo "Rewriting history to remove exclusions via Docker..."
           docker run --rm \
-            -v "${{ runner.temp }}/source-repo:/source" \
-            -v "$GITHUB_WORKSPACE:/workspace" \
-            alpine:latest \
+            -v "${{ runner.temp }}/source-repo.git:/repo.git" \
+            -w /repo.git \
+            python:3-alpine \
             sh -c "
-              apk add --no-cache rsync >/dev/null 2>&1 && \
-              rsync -av --delete ${RSYNC_ARGS[*]} /source/ /workspace/ && \
-              chown -R $(id -u):$(id -g) /workspace/
+              apk add --no-cache git && \
+              pip install git-filter-repo && \
+              git filter-repo ${FILTER_ARGS} --force
             "
 
-      - name: Commit and Push Code Updates
+      - name: Push Rewritten History to Destination
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GH_HOST: ${{ github.server_url }}
         run: |
           set -euo pipefail
-          git add .
-          if ! git diff --quiet --staged; then
-            echo "Changes detected. Committing..."
-            git commit -m "Automated sync from remote source" -m "Source Commit SHA: ${{ env.SOURCE_SHA }}"
-            git pull --rebase origin "${{ github.ref_name }}"
+          export GH_HOST=${GH_HOST#*//}
 
-            if [ "${{ inputs.dry_run }}" == "false" ]; then
-              git push origin "HEAD:${{ github.ref_name }}"
-              echo "Successfully pushed to ${{ github.ref_name }}"
-            else
-              echo "DRY RUN: Skipping code push to ${{ github.ref_name }}"
-            fi
+          cd "${{ runner.temp }}/source-repo.git"
+          DEST_URL="https://x-access-token:${GH_TOKEN}@${GH_HOST}/${{ github.repository }}.git"
+          echo "Pushing full history and tags to destination..."
+          if [ "${{ inputs.dry_run }}" == "false" ]; then
+            git push --mirror --force "$DEST_URL"
           else
-            echo "No code changes detected."
+            echo "DRY RUN: Skipping mirror push."
           fi
 
       - name: Sync Missing Tags, Releases, and Assets
@@ -173,7 +169,6 @@ jobs:
 
           echo "Fetching tags from source..."
           SOURCE_TAGS=$(gh api "repos/${{ env.SOURCE_REPO_NWO }}/tags" --paginate --jq '.[].name' || echo "")
-          DEST_TAGS=$(git tag || echo "")
 
           if [ -z "$SOURCE_TAGS" ]; then
             echo "No tags found in source repo. Skipping release sync."
@@ -183,19 +178,13 @@ jobs:
           echo "$SOURCE_TAGS" | tac | while IFS= read -r TAG; do
             if [ -z "$TAG" ]; then continue; fi
 
-            if echo "$DEST_TAGS" | grep -qx "$TAG"; then
-              echo "Tag $TAG already exists locally. Skipping."
+            # Check if the Release already exists locally (tags are already pushed by mirror)
+            if gh release view "$TAG" >/dev/null 2>&1; then
+              echo "Release for $TAG already exists locally. Skipping."
               continue
             fi
 
-            echo "Syncing Tag and Release: $TAG"
-
-            if [ "${{ inputs.dry_run }}" == "false" ]; then
-              git tag "$TAG"
-              git push origin "$TAG"
-            else
-              echo "DRY RUN: Skipping tag creation for $TAG"
-            fi
+            echo "Syncing Release Metadata and Assets for: $TAG"
 
             RELEASE_DATA=$(get_release_data "$TAG")
 
