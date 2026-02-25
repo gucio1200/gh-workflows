@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.14.5](https://github.com/gucio1200/gh-workflows/compare/v7.14.4...v7.14.5) (2026-02-25)
+
+### Bug Fixes
+
+* Preserve history ([52cff03](https://github.com/gucio1200/gh-workflows/commit/52cff03032b04fdb82375f5af290942f39e95518))
+
 ## [7.14.4](https://github.com/gucio1200/gh-workflows/compare/v7.14.3...v7.14.4) (2026-02-25)
 
 ### Bug Fixes
