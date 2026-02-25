@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.13.0](https://github.com/gucio1200/gh-workflows/compare/v7.12.1...v7.13.0) (2026-02-25)
+
+### Features
+
+* Use Docker mofo ([#31](https://github.com/gucio1200/gh-workflows/issues/31)) ([4fcf47d](https://github.com/gucio1200/gh-workflows/commit/4fcf47d89bc4dd34a3f426cc304f73f79ae0fbec))
+
 ## [7.12.1](https://github.com/gucio1200/gh-workflows/compare/v7.12.0...v7.12.1) (2026-02-25)
 
 ### Bug Fixes
