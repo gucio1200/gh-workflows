@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.12.0](https://github.com/gucio1200/gh-workflows/compare/v7.11.0...v7.12.0) (2026-02-25)
+
+### Features
+
+* Add cleanup ([#29](https://github.com/gucio1200/gh-workflows/issues/29)) ([1b33321](https://github.com/gucio1200/gh-workflows/commit/1b333215fd273082b9e83d70e1458c482e021a8e))
+
 ## [7.11.0](https://github.com/gucio1200/gh-workflows/compare/v7.10.1...v7.11.0) (2026-02-25)
 
 ### Features
