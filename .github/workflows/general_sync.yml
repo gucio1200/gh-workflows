@@ -124,6 +124,54 @@ jobs:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           set -euo pipefail
+          export GH_HOST=${GH_HOST#*//}
+
+          get_release_data() {
+            local tag="$1"
+            local attempt=1
+            local max=10
+
+            while [ $attempt -le $max ]; do
+              if OUT=$(gh release view "$tag" -R "github.com/${{ env.SOURCE_REPO_NWO }}" --json name,body,isDraft,isPrerelease 2>&1); then
+                echo "$OUT"
+                return 0
+              fi
+
+              if echo "$OUT" | grep -qiE 'release not found|HTTP 404'; then
+                echo "not_found"
+                return 0
+              fi
+
+              echo "gh release view failed (Attempt $attempt/$max): $OUT" >&2
+              if [ $attempt -lt $max ]; then
+                sleep 5
+              fi
+              attempt=$((attempt + 1))
+            done
+            echo "not_found"
+          }
+
+          download_assets() {
+            local tag="$1"
+            local dir="$2"
+            local attempt=1
+            local max=10
+
+            while [ $attempt -le $max ]; do
+              if gh release download "$tag" -R "github.com/${{ env.SOURCE_REPO_NWO }}" --dir "$dir" 2>&1; then
+                return 0
+              fi
+
+              echo "gh release download failed (Attempt $attempt/$max). Retrying in 5s..." >&2
+              if [ $attempt -lt $max ]; then
+                sleep 5
+              fi
+              attempt=$((attempt + 1))
+            done
+            echo "Failed to download assets after $max attempts. Proceeding anyway." >&2
+            return 0
+          }
+
           echo "Fetching tags from source..."
           SOURCE_TAGS=$(gh api "repos/${{ env.SOURCE_REPO_NWO }}/tags" --paginate --jq '.[].name' || echo "")
           DEST_TAGS=$(git tag || echo "")
@@ -150,7 +198,7 @@ jobs:
               echo "DRY RUN: Skipping tag creation for $TAG"
             fi
 
-            RELEASE_DATA=$(gh release view "$TAG" -R "${{ env.SOURCE_REPO_NWO }}" --json name,body,isDraft,isPrerelease 2>/dev/null || echo "not_found")
+            RELEASE_DATA=$(get_release_data "$TAG")
 
             if [ "$RELEASE_DATA" != "not_found" ] && [ -n "$RELEASE_DATA" ]; then
               NAME=$(echo "$RELEASE_DATA" | jq -r '.name // empty')
@@ -174,7 +222,7 @@ jobs:
                 mkdir -p "$ASSET_DIR"
 
                 echo "Downloading assets from source..."
-                gh release download "$TAG" -R "${{ env.SOURCE_REPO_NWO }}" --dir "$ASSET_DIR" || true
+                download_assets "$TAG" "$ASSET_DIR"
 
                 if [ "$(ls -A "$ASSET_DIR" 2>/dev/null)" ]; then
                   echo "Uploading assets to destination..."
