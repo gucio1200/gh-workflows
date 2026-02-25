@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.14.0](https://github.com/gucio1200/gh-workflows/compare/v7.13.0...v7.14.0) (2026-02-25)
+
+### Features
+
+* Loop logic ([28e598e](https://github.com/gucio1200/gh-workflows/commit/28e598ef7421951044f1381645cbfd8fb739e6ed))
+
 ## [7.13.0](https://github.com/gucio1200/gh-workflows/compare/v7.12.1...v7.13.0) (2026-02-25)
 
 ### Features
