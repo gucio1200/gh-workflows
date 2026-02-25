@@ -1,0 +1,100 @@
+name: Reusable Repository Cleanup (Wipe All)
+
+on:
+  workflow_call:
+    secrets:
+      APP_ID:
+        description: 'The ID of the GitHub App used for syncing/cleanup'
+        required: true
+      APP_PRIVATE_KEY:
+        description: 'The Private Key of the GitHub App'
+        required: true
+
+jobs:
+  wipe-repository:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Configure Git Identity
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}
+        run: |
+          set -euo pipefail
+          BOT_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "Setting Git identity for ${APP_SLUG}[bot] (ID: $BOT_ID)"
+          git config --global user.name "${APP_SLUG}[bot]"
+          git config --global user.email "${BOT_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+
+      - name: Delete All Releases
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          echo "Fetching and deleting all releases..."
+
+          gh release list --limit 1000 --json tagName -q '.[].tagName' | while IFS= read -r tag; do
+            if [ -n "$tag" ]; then
+              echo "Deleting release for tag: $tag"
+              gh release delete "$tag" -y || echo "Failed to delete release $tag, continuing..."
+            fi
+          done
+
+      - name: Delete All Tags
+        run: |
+          set -euo pipefail
+          echo "Fetching tags..."
+          git fetch --tags
+
+          TAGS=$(git tag || echo "")
+          if [ -z "$TAGS" ]; then
+            echo "No tags found to delete."
+          else
+            echo "$TAGS" | while IFS= read -r tag; do
+              if [ -n "$tag" ]; then
+                echo "Deleting tag: $tag"
+                git push origin ":refs/tags/$tag" || echo "Could not delete remote tag $tag"
+                git tag -d "$tag" || true
+              fi
+            done
+          fi
+
+      - name: Delete All Files (Except .github)
+        run: |
+          set -euo pipefail
+          echo "Wiping files..."
+
+          ls -A | grep -vE '^(\.git|\.github)$' | while IFS= read -r item; do
+            if [ -n "$item" ]; then
+              echo "Removing $item..."
+              git rm -rf "$item" || rm -rf "$item"
+            fi
+          done
+
+      - name: Commit and Push Clean State
+        run: |
+          set -euo pipefail
+
+          git add -u
+
+          if ! git diff --quiet --staged; then
+            echo "Committing wiped state..."
+            git commit -m "chore: wipe repository clean (preserving .github)"
+            git push origin HEAD
+            echo "Repository wiped successfully."
+          else
+            echo "Repository is already clean."
+          fi
