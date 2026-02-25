@@ -1,0 +1,188 @@
+---
+name: Reusable Pull Sync
+
+on:
+  workflow_call:
+    inputs:
+      source_repo_url:
+        description: "URL of the remote source repository (e.g., https://github.com/OWNER/REPO.git)"
+        required: true
+        type: string
+      branch:
+        description: "The branch to sync (used for both source and destination)"
+        required: false
+        default: "main"
+        type: string
+      extra_excludes:
+        description: "Space-separated list of extra files to exclude (e.g., README.md LICENSE)"
+        required: false
+        default: ""
+        type: string
+      dry_run:
+        description: "If true, simulates the sync without pushing code or creating releases"
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      APP_ID:
+        description: "The ID of the GitHub App used for syncing"
+        required: true
+      APP_PRIVATE_KEY:
+        description: "The Private Key of the GitHub App"
+        required: true
+
+concurrency:
+  group: pull-sync-${{ github.repository }}-${{ inputs.branch }}
+  cancel-in-progress: false
+
+jobs:
+  pull-and-sync:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_REPO_URL: ${{ inputs.source_repo_url }}
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        id: generate-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout Destination (Caller Repo)
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+
+      - name: Configure Git Identity
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          APP_SLUG: ${{ steps.generate-token.outputs.app-slug }}
+        run: |
+          set -euo pipefail
+          BOT_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "Setting Git identity for ${APP_SLUG}[bot] (ID: $BOT_ID)"
+          git config --global user.name "${APP_SLUG}[bot]"
+          git config --global user.email "${BOT_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+
+      - name: Extract Owner/Repo from URL
+        run: |
+          set -euo pipefail
+          URL="${{ env.SOURCE_REPO_URL }}"
+          NWO=${URL#*github.com/}
+          NWO=${NWO%.git}
+          echo "SOURCE_REPO_NWO=$NWO" >> "$GITHUB_ENV"
+
+      - name: Clone Source & Extract SHA
+        run: |
+          set -euo pipefail
+          echo "Cloning branch '${{ inputs.branch }}' from ${{ env.SOURCE_REPO_URL }}..."
+          git clone --depth 1 --branch "${{ inputs.branch }}" "${{ env.SOURCE_REPO_URL }}" "${{ runner.temp }}/source-repo"
+          cd ${{ runner.temp }}/source-repo
+          SOURCE_SHA=$(git rev-parse --short HEAD)
+          echo "SOURCE_SHA=$SOURCE_SHA" >> "$GITHUB_ENV"
+          echo "Source commit SHA: $SOURCE_SHA"
+
+      - name: Sync Files
+        run: |
+          set -euo pipefail
+          RSYNC_ARGS=(--exclude='.github' --exclude='.git')
+          read -ra EXCLUDES_ARRAY <<< "${{ inputs.extra_excludes }}"
+          for EXCLUDE in "${EXCLUDES_ARRAY[@]}"; do
+            if [ -n "$EXCLUDE" ]; then
+              RSYNC_ARGS+=(--exclude="$EXCLUDE")
+            fi
+          done
+          echo "Running rsync with arguments: ${RSYNC_ARGS[*]}"
+          rsync -av --delete "${RSYNC_ARGS[@]}" "${{ runner.temp }}/source-repo/" ./
+
+      - name: Commit and Push Code Updates
+        run: |
+          set -euo pipefail
+          git add .
+          if ! git diff --quiet --staged; then
+            echo "Changes detected. Committing..."
+            git commit -m "Automated sync from remote source" -m "Source Commit SHA: ${{ env.SOURCE_SHA }}"
+            git pull --rebase origin "${{ inputs.branch }}"
+            if [ "${{ inputs.dry_run }}" == "false" ]; then
+              git push origin "HEAD:${{ inputs.branch }}"
+              echo "Successfully pushed to ${{ inputs.branch }}"
+            else
+              echo "DRY RUN: Skipping code push to ${{ inputs.branch }}"
+            fi
+          else
+            echo "No code changes detected."
+          fi
+
+      - name: Sync Missing Tags, Releases, and Assets
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          echo "Fetching tags from source..."
+          SOURCE_TAGS=$(gh api "repos/${{ env.SOURCE_REPO_NWO }}/tags" --paginate --jq '.[].name' || echo "")
+          DEST_TAGS=$(git tag || echo "")
+
+          if [ -z "$SOURCE_TAGS" ]; then
+            echo "No tags found in source repo. Skipping release sync."
+            exit 0
+          fi
+
+          echo "$SOURCE_TAGS" | tac | while IFS= read -r TAG; do
+            # Skip empty lines
+            if [ -z "$TAG" ]; then continue; fi
+
+            if echo "$DEST_TAGS" | grep -qx "$TAG"; then
+              echo "Tag $TAG already exists locally. Skipping."
+              continue
+            fi
+
+            echo "Syncing Tag and Release: $TAG"
+
+            if [ "${{ inputs.dry_run }}" == "false" ]; then
+              git tag "$TAG"
+              git push origin "$TAG"
+            else
+              echo "DRY RUN: Skipping tag creation for $TAG"
+            fi
+
+            RELEASE_DATA=$(gh release view "$TAG" -R "${{ env.SOURCE_REPO_NWO }}" --json name,body,isDraft,isPrerelease 2>/dev/null || echo "not_found")
+
+            if [ "$RELEASE_DATA" != "not_found" ] && [ -n "$RELEASE_DATA" ]; then
+              NAME=$(echo "$RELEASE_DATA" | jq -r '.name // empty')
+              BODY=$(echo "$RELEASE_DATA" | jq -r '.body // empty')
+              DRAFT=$(echo "$RELEASE_DATA" | jq -r '.isDraft // false')
+              PRE=$(echo "$RELEASE_DATA" | jq -r '.isPrerelease // false')
+
+              if [ "${{ inputs.dry_run }}" == "false" ]; then
+                echo "Creating release $TAG..."
+
+                REL_ARGS=()
+                if [ "$DRAFT" = "true" ]; then REL_ARGS+=(--draft); fi
+                if [ "$PRE" = "true" ]; then REL_ARGS+=(--prerelease); fi
+
+                gh release create "$TAG" \
+                  --title "$NAME" \
+                  --notes "$BODY" \
+                  "${REL_ARGS[@]}"
+
+                ASSET_DIR="${{ runner.temp }}/assets-$TAG"
+                mkdir -p "$ASSET_DIR"
+
+                echo "Downloading assets from source..."
+                gh release download "$TAG" -R "${{ env.SOURCE_REPO_NWO }}" --dir "$ASSET_DIR" || true
+
+                if [ "$(ls -A "$ASSET_DIR" 2>/dev/null)" ]; then
+                  echo "Uploading assets to destination..."
+                  gh release upload "$TAG" "$ASSET_DIR"/*
+                fi
+                rm -rf "$ASSET_DIR"
+              else
+                echo "DRY RUN: Skipping release creation and asset upload for $TAG"
+              fi
+            else
+              echo "No formal release found for tag $TAG in source. Just the tag was synced."
+            fi
+          done
