@@ -89,8 +89,16 @@ jobs:
               RSYNC_ARGS+=(--exclude="$EXCLUDE")
             fi
           done
-          echo "Running rsync with arguments: ${RSYNC_ARGS[*]}"
-          rsync -av --delete "${RSYNC_ARGS[@]}" "${{ runner.temp }}/source-repo/" ./
+          echo "Running rsync via ephemeral Docker container..."
+          docker run --rm \
+            -v "${{ runner.temp }}/source-repo:/source" \
+            -v "$GITHUB_WORKSPACE:/workspace" \
+            alpine:latest \
+            sh -c "
+              apk add --no-cache rsync >/dev/null 2>&1 && \
+              rsync -av --delete ${RSYNC_ARGS[*]} /source/ /workspace/ && \
+              chown -R $(id -u):$(id -g) /workspace/
+            "
 
       - name: Commit and Push Code Updates
         run: |
