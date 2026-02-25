@@ -124,7 +124,6 @@ jobs:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           set -euo pipefail
-          export GH_HOST=${GH_HOST#*//}
 
           get_release_data() {
             local tag="$1"
