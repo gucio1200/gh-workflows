@@ -78,11 +78,14 @@ jobs:
           set -euo pipefail
           echo "Wiping files..."
 
-          ls -A | grep -vE '^(\.git|\.github)$' | while IFS= read -r item; do
-            if [ -n "$item" ]; then
-              echo "Removing $item..."
-              git rm -rf "$item" || rm -rf "$item"
+          shopt -s dotglob nullglob
+          for item in *; do
+            if [[ "$item" == ".git" || "$item" == ".github" ]]; then
+              continue
             fi
+
+            echo "Removing $item..."
+            git rm -rf "$item" || rm -rf "$item"
           done
 
       - name: Commit and Push Clean State
