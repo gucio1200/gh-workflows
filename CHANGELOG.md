@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.12.1](https://github.com/gucio1200/gh-workflows/compare/v7.12.0...v7.12.1) (2026-02-25)
+
+### Bug Fixes
+
+* Define branch from CI ([#30](https://github.com/gucio1200/gh-workflows/issues/30)) ([6fc9cd7](https://github.com/gucio1200/gh-workflows/commit/6fc9cd779d17ab3a35ec2c8c56366c65a3bf7836))
+
 ## [7.12.0](https://github.com/gucio1200/gh-workflows/compare/v7.11.0...v7.12.0) (2026-02-25)
 
 ### Features
