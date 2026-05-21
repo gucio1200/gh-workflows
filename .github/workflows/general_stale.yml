@@ -42,7 +42,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
-      - uses: actions/stale@v10.2.0
+      - uses: actions/stale@v10.3.0
         with:
           repo-token: ${{ steps.generate-token.outputs.token }}
           # Staling issues and PR's
