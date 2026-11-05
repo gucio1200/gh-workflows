@@ -46,7 +46,7 @@ jobs:
 
       # Please look up the latest version from
       # https://github.com/amannn/action-semantic-pull-request/releases
-      - uses: amannn/action-semantic-pull-request@v6.1.1
+      - uses: amannn/action-semantic-pull-request@v6.1.2
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
         with:
